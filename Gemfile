@@ -97,17 +97,17 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
-  
+
   # Better error pages
   gem "better_errors"
   gem "binding_of_caller"
-  
+
   # Preview emails
   gem "letter_opener"
-  
+
   # N+1 query detection
   gem "bullet"
-  
+
   # Performance monitoring
   gem "rack-mini-profiler"
 end
