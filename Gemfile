@@ -61,7 +61,7 @@ gem "anthropic"
 
 # Payments
 gem "pay", "~> 7.0"
-gem "stripe", "~> 12.0"
+gem "stripe", "~> 15.3"
 
 # PWA Support
 # gem "serviceworker-rails" # Temporarily disabled - compatibility issue with Rails 8
