@@ -40,3 +40,7 @@
 CLAUDE.md
 PRD.md
 GIT_STRATEGY.md
+DEPLOYMENT_GUIDE.md
+DEPLOYMENT_CHECKLIST.md
+Dockerfile.production
+.env.production
