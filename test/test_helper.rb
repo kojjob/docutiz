@@ -13,3 +13,11 @@ module ActiveSupport
     # Add more helper methods to be used by all tests here...
   end
 end
+
+# Configure integration tests to handle subdomains
+class ActionDispatch::IntegrationTest
+  # Set default host for tests
+  setup do
+    host! "localhost"
+  end
+end

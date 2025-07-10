@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Test Company One
+  subdomain: testcompany1
+  settings: 
+    max_users: 5
+    max_documents_per_month: 1000
+    features: ["basic_extraction", "templates", "api_access"]
+  plan: trial
+  trial_ends_at: <%= 14.days.from_now %>
+
+two:
+  name: Test Company Two
+  subdomain: testcompany2
+  settings: 
+    max_users: 10
+    max_documents_per_month: 5000
+    features: ["basic_extraction", "templates", "api_access", "advanced_ai"]
+  plan: professional
+  trial_ends_at: <%= 30.days.ago %>

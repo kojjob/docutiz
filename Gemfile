@@ -64,7 +64,7 @@ gem "pay", "~> 7.0"
 gem "stripe", "~> 12.0"
 
 # PWA Support
-gem "serviceworker-rails"
+# gem "serviceworker-rails" # Temporarily disabled - compatibility issue with Rails 8
 
 # API Support
 gem "jwt"

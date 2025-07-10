@@ -39,6 +39,15 @@ Rails.application.configure do
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "example.com" }
 
+  # Allow subdomains in test environment
+  config.hosts.clear  # Clear default hosts
+  config.hosts << "localhost"
+  config.hosts << /[a-z0-9\-]+\.localhost/
+  config.action_dispatch.tld_length = 0
+
+  # Configure session cookies to work across subdomains in test
+  config.session_store :cookie_store, key: "_docutiz_test_session", domain: ".localhost"
+
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 

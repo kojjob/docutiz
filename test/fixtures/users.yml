@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+owner_one:
+  name: Owner User One
+  email: owner1@example.com
+  encrypted_password: <%= User.new.send(:password_digest, 'password123') %>
+  tenant: one
+  role: owner
+  confirmed_at: <%= 1.day.ago %>
+  sign_in_count: 5
+  current_sign_in_at: <%= 1.hour.ago %>
+  last_sign_in_at: <%= 2.hours.ago %>
+
+admin_two:
+  name: Admin User Two
+  email: admin2@example.com
+  encrypted_password: <%= User.new.send(:password_digest, 'password123') %>
+  tenant: two
+  role: admin
+  confirmed_at: <%= 2.days.ago %>
+  sign_in_count: 10
+  current_sign_in_at: <%= 30.minutes.ago %>
+  last_sign_in_at: <%= 1.day.ago %>
