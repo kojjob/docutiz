@@ -1,0 +1,114 @@
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Header -->
+  <div class="mb-8">
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <div>
+        <nav class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2" aria-label="Breadcrumb">
+          <%= link_to "Templates", extraction_templates_path, class: "hover:text-gray-700 dark:hover:text-gray-200" %>
+          <svg class="mx-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+          </svg>
+          <span class="text-gray-900 dark:text-gray-100">Library</span>
+        </nav>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Template Library</h1>
+        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+          Browse and install pre-made extraction templates for common document types
+        </p>
+      </div>
+      <div class="mt-4 sm:mt-0">
+        <%= link_to extraction_templates_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-200" do %>
+          <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to My Templates
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories -->
+  <% if @library_templates.any? %>
+    <% @library_templates.each do |category, templates| %>
+      <div class="mb-10">
+        <div class="mb-6">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100"><%= category %></h2>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            <%= templates.size %> templates available
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <% templates.each do |template| %>
+            <div class="relative group bg-white dark:bg-coffee-800 rounded-lg shadow-sm border border-gray-200 dark:border-coffee-700 hover:shadow-lg transition-all duration-200">
+              <div class="p-6">
+                <!-- Header -->
+                <div class="mb-4">
+                  <div class="flex items-start justify-between">
+                    <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-200">
+                      <%= template[:name] %>
+                    </h3>
+                    <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200">
+                      <%= template[:document_type].humanize %>
+                    </span>
+                  </div>
+                  
+                  <p class="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
+                    <%= template[:description] %>
+                  </p>
+                </div>
+                
+                <!-- Fields Preview -->
+                <div class="mb-6">
+                  <h4 class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                    Extracted Fields (<%= template[:fields].size %>)
+                  </h4>
+                  <div class="flex flex-wrap gap-1.5">
+                    <% template[:fields].first(5).each do |field| %>
+                      <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700 dark:bg-coffee-900 dark:text-gray-300 rounded-md">
+                        <%= field[:name] %>
+                      </span>
+                    <% end %>
+                    <% if template[:fields].size > 5 %>
+                      <span class="inline-flex items-center px-2 py-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                        +<%= template[:fields].size - 5 %> more
+                      </span>
+                    <% end %>
+                  </div>
+                </div>
+                
+                <!-- Install Button -->
+                <div class="mt-auto">
+                  <%= form_with url: install_from_library_extraction_templates_path, method: :post, local: false, data: { turbo: false } do |f| %>
+                    <%= f.hidden_field :template_id, value: template[:id] %>
+                    <%= f.submit "Install Template", class: "w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 cursor-pointer transition-colors duration-200" %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <!-- Empty state -->
+    <div class="text-center py-16">
+      <div class="mx-auto max-w-sm">
+        <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+        </svg>
+        <h3 class="mt-4 text-base font-medium text-gray-900 dark:text-gray-100">No templates available</h3>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+          The template library is currently empty. Check back later for pre-made templates.
+        </p>
+        <div class="mt-6">
+          <%= link_to extraction_templates_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-200" do %>
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to My Templates
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

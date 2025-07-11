@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+invoice_number_result:
+  document: pending_invoice
+  field_name: invoice_number
+  field_value: INV-001
+  confidence_score: 0.95
+  ai_model: gpt-4-vision
+  raw_response: 
+    text: "INV-001"
+    confidence: 0.95
+  created_by: owner_one
+
+merchant_name_result:
+  document: completed_receipt
+  field_name: merchant_name
+  field_value: Test Store
+  confidence_score: 0.88
+  ai_model: claude-3-opus
+  raw_response: 
+    text: "Test Store"
+    confidence: 0.88
+  created_by: null

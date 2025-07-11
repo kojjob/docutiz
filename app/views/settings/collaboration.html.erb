@@ -1,0 +1,170 @@
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Settings</h1>
+      <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+        Manage your account settings and preferences
+      </p>
+    </div>
+
+    <!-- Settings Navigation -->
+    <div class="mb-8">
+      <nav class="flex space-x-8 border-b border-gray-200 dark:border-coffee-700">
+        <%= link_to profile_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(profile_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Profile
+        <% end %>
+        
+        <%= link_to notifications_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(notifications_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Notifications
+        <% end %>
+        
+        <%= link_to collaboration_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(collaboration_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Collaboration
+        <% end %>
+        
+        <%= link_to api_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(api_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          API
+        <% end %>
+        
+        <%= link_to integrations_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(integrations_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Integrations
+        <% end %>
+        
+        <% if current_user.owner? %>
+          <%= link_to tenant_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(tenant_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+            Organization
+          <% end %>
+          
+          <%= link_to billing_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(billing_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+            Billing
+          <% end %>
+          
+          <%= link_to security_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(security_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+            Security
+          <% end %>
+        <% end %>
+      </nav>
+    </div>
+
+    <!-- Collaboration Settings Form -->
+    <%= form_with url: collaboration_settings_path, method: :patch, local: true, class: "space-y-6" do |f| %>
+      <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+          <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Collaboration Preferences</h3>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Configure how you collaborate with your team
+          </p>
+        </div>
+        <div class="px-6 py-6 space-y-6">
+          <div class="space-y-4">
+            <label class="flex items-start">
+              <%= check_box_tag "collaboration[show_activity_feed]", 
+                  true, 
+                  @collaboration_settings["show_activity_feed"],
+                  class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mt-1 mr-3" %>
+              <div>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Show Activity Feed</span>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Display team activity in your dashboard
+                </p>
+              </div>
+            </label>
+
+            <label class="flex items-start">
+              <%= check_box_tag "collaboration[allow_comments]", 
+                  true, 
+                  @collaboration_settings["allow_comments"],
+                  class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mt-1 mr-3" %>
+              <div>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Allow Comments</span>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Let team members comment on your documents
+                </p>
+              </div>
+            </label>
+
+            <label class="flex items-start">
+              <%= check_box_tag "collaboration[notify_on_comments]", 
+                  true, 
+                  @collaboration_settings["notify_on_comments"],
+                  class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mt-1 mr-3" %>
+              <div>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Comment Notifications</span>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Get notified when someone comments on your documents
+                </p>
+              </div>
+            </label>
+
+            <label class="flex items-start">
+              <%= check_box_tag "collaboration[notify_on_document_changes]", 
+                  true, 
+                  @collaboration_settings["notify_on_document_changes"],
+                  class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mt-1 mr-3" %>
+              <div>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Document Change Notifications</span>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Get notified when documents you're following are updated
+                </p>
+              </div>
+            </label>
+          </div>
+
+          <div>
+            <label for="default_visibility" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Default Document Visibility
+            </label>
+            <%= select_tag "collaboration[default_document_visibility]", 
+                options_for_select([
+                  ["Private - Only you can view", "private"],
+                  ["Team - All team members can view", "team"],
+                  ["Specific Members - Choose who can view", "specific"]
+                ], @collaboration_settings["default_document_visibility"]),
+                class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm" %>
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              Choose who can view your documents by default
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+          <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Comment Settings</h3>
+        </div>
+        <div class="px-6 py-6 space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Who can comment on your documents?
+            </label>
+            <div class="space-y-2">
+              <label class="flex items-center">
+                <input type="radio" name="comment_permissions" value="all" 
+                       <%= 'checked' if @collaboration_settings["comment_permissions"] == "all" %>
+                       class="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300">
+                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">All team members</span>
+              </label>
+              <label class="flex items-center">
+                <input type="radio" name="comment_permissions" value="admins" 
+                       <%= 'checked' if @collaboration_settings["comment_permissions"] == "admins" %>
+                       class="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300">
+                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Only admins and owners</span>
+              </label>
+              <label class="flex items-center">
+                <input type="radio" name="comment_permissions" value="none" 
+                       <%= 'checked' if @collaboration_settings["comment_permissions"] == "none" %>
+                       class="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300">
+                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">No one</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end">
+        <%= f.submit "Save Preferences", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 cursor-pointer" %>
+      </div>
+    <% end %>
+  </div>
+</div>

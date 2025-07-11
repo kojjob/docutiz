@@ -1,0 +1,209 @@
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+  <div class="max-w-3xl mx-auto">
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Edit Webhook</h1>
+      <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+        Update webhook configuration and event subscriptions
+      </p>
+    </div>
+
+    <%= form_with model: @webhook, local: true, html: { class: "space-y-6" } do |f| %>
+      <% if @webhook.errors.any? %>
+        <div class="rounded-lg bg-red-50 dark:bg-red-900/20 p-4">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <h3 class="text-sm font-medium text-red-800 dark:text-red-200">
+                There were <%= pluralize(@webhook.errors.count, "error") %> with your submission
+              </h3>
+              <div class="mt-2 text-sm text-red-700 dark:text-red-300">
+                <ul class="list-disc list-inside">
+                  <% @webhook.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+          <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Webhook Configuration</h3>
+        </div>
+        <div class="px-6 py-6 space-y-6">
+          <div>
+            <%= f.label :name, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= f.text_field :name, 
+                placeholder: "e.g., Production Server, Slack Integration",
+                class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm" %>
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              A descriptive name to identify this webhook
+            </p>
+          </div>
+
+          <div>
+            <%= f.label :url, "Endpoint URL", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= f.text_field :url, 
+                placeholder: "https://example.com/webhooks/docutiz",
+                class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm" %>
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              The URL where webhook payloads will be sent via POST
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+              Events
+            </label>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+              Select which events should trigger this webhook
+            </p>
+            
+            <div class="space-y-4">
+              <div>
+                <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Document Events</h4>
+                <div class="space-y-2">
+                  <% %w[document.created document.processed document.approved document.rejected].each do |event| %>
+                    <label class="flex items-center">
+                      <%= check_box_tag "webhook[events][]", event, @webhook.events.include?(event), 
+                          id: "event_#{event.gsub('.', '_')}",
+                          class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded" %>
+                      <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                        <%= event %>
+                        <span class="text-gray-500 dark:text-gray-400">
+                          - <%= event_description(event) %>
+                        </span>
+                      </span>
+                    </label>
+                  <% end %>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Extraction Events</h4>
+                <div class="space-y-2">
+                  <% %w[extraction.completed extraction.failed extraction.reviewed].each do |event| %>
+                    <label class="flex items-center">
+                      <%= check_box_tag "webhook[events][]", event, @webhook.events.include?(event), 
+                          id: "event_#{event.gsub('.', '_')}",
+                          class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded" %>
+                      <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                        <%= event %>
+                        <span class="text-gray-500 dark:text-gray-400">
+                          - <%= event_description(event) %>
+                        </span>
+                      </span>
+                    </label>
+                  <% end %>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Other Events</h4>
+                <div class="space-y-2">
+                  <% %w[template.created template.updated user.invited user.joined].each do |event| %>
+                    <label class="flex items-center">
+                      <%= check_box_tag "webhook[events][]", event, @webhook.events.include?(event), 
+                          id: "event_#{event.gsub('.', '_')}",
+                          class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded" %>
+                      <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                        <%= event %>
+                        <span class="text-gray-500 dark:text-gray-400">
+                          - <%= event_description(event) %>
+                        </span>
+                      </span>
+                    </label>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+          <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Advanced Settings</h3>
+        </div>
+        <div class="px-6 py-6 space-y-6">
+          <div>
+            <%= f.label :retry_count, "Retry Count", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= f.number_field :retry_count, 
+                min: 0, 
+                max: 10,
+                class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm" %>
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              Number of retry attempts for failed deliveries (0-10)
+            </p>
+          </div>
+
+          <div>
+            <%= f.label :timeout_seconds, "Timeout (seconds)", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= f.number_field :timeout_seconds, 
+                min: 5, 
+                max: 300,
+                class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm" %>
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              Request timeout in seconds (5-300)
+            </p>
+          </div>
+
+          <div>
+            <label class="flex items-center">
+              <%= f.check_box :active, class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded" %>
+              <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                Active
+              </span>
+            </label>
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              Inactive webhooks will not receive any events
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Webhook Info -->
+      <div class="bg-gray-50 dark:bg-coffee-900/50 rounded-lg p-6">
+        <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">Webhook Information</h3>
+        <dl class="space-y-2">
+          <div class="flex justify-between text-sm">
+            <dt class="text-gray-500 dark:text-gray-400">Secret Key</dt>
+            <dd class="font-mono text-gray-900 dark:text-gray-100"><%= @webhook.secret_key %></dd>
+          </div>
+          <div class="flex justify-between text-sm">
+            <dt class="text-gray-500 dark:text-gray-400">Total Deliveries</dt>
+            <dd class="text-gray-900 dark:text-gray-100"><%= number_with_delimiter(@webhook.total_deliveries) %></dd>
+          </div>
+          <div class="flex justify-between text-sm">
+            <dt class="text-gray-500 dark:text-gray-400">Success Rate</dt>
+            <dd class="text-gray-900 dark:text-gray-100"><%= @webhook.success_rate %>%</dd>
+          </div>
+          <% if @webhook.last_triggered_at %>
+            <div class="flex justify-between text-sm">
+              <dt class="text-gray-500 dark:text-gray-400">Last Triggered</dt>
+              <dd class="text-gray-900 dark:text-gray-100"><%= time_ago_in_words(@webhook.last_triggered_at) %> ago</dd>
+            </div>
+          <% end %>
+        </dl>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <div>
+          <%= link_to "Delete Webhook", webhook_path(@webhook), method: :delete, 
+              data: { confirm: "Are you sure? This will permanently delete this webhook and all its event history." },
+              class: "text-sm text-red-600 hover:text-red-500 dark:text-red-400" %>
+        </div>
+        <div class="flex items-center space-x-3">
+          <%= link_to "Cancel", webhook_path(@webhook), class: "px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" %>
+          <%= f.submit "Update Webhook", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 cursor-pointer" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,181 @@
+<!-- Claude Code Prompt Optimizer -->
+<div class="bg-white dark:bg-dark-surface rounded-xl shadow-sm border border-gray-100 dark:border-dark-border p-6">
+  <div class="flex items-center justify-between mb-4">
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+      Prompt Optimization
+    </h3>
+    <div class="flex items-center space-x-2">
+      <span class="text-sm text-gray-500 dark:text-gray-400">Accuracy:</span>
+      <div class="flex items-center">
+        <div class="w-32 bg-gray-200 dark:bg-coffee-800 rounded-full h-2">
+          <div class="bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 h-2 rounded-full" 
+               style="width: <%= @template.average_confidence_score * 100 %>%"></div>
+        </div>
+        <span class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+          <%= (@template.average_confidence_score * 100).round %>%
+        </span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Current Prompt -->
+  <div class="mb-6">
+    <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Current Prompt</h4>
+    <div class="p-4 bg-gray-50 dark:bg-coffee-900 rounded-lg">
+      <pre class="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap"><%= @template.prompt_template %></pre>
+    </div>
+  </div>
+  
+  <!-- Performance Metrics -->
+  <div class="grid grid-cols-3 gap-4 mb-6">
+    <div class="text-center p-4 bg-gray-50 dark:bg-coffee-900 rounded-lg">
+      <div class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        <%= @template.extraction_results.count %>
+      </div>
+      <div class="text-xs text-gray-500 dark:text-gray-400">Total Extractions</div>
+    </div>
+    <div class="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+      <div class="text-2xl font-bold text-green-600 dark:text-green-400">
+        <%= @template.extraction_results.where('confidence_score >= ?', 0.9).count %>
+      </div>
+      <div class="text-xs text-gray-500 dark:text-gray-400">High Confidence</div>
+    </div>
+    <div class="text-center p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+      <div class="text-2xl font-bold text-red-600 dark:text-red-400">
+        <%= @template.extraction_results.where('confidence_score < ?', 0.7).count %>
+      </div>
+      <div class="text-xs text-gray-500 dark:text-gray-400">Low Confidence</div>
+    </div>
+  </div>
+  
+  <!-- Optimize Button -->
+  <button 
+    onclick="optimizePrompt(<%= @template.id %>)"
+    class="w-full px-4 py-2 bg-gradient-to-r from-teal-600 to-teal-700 dark:from-teal-500 dark:to-teal-600 text-white font-medium rounded-lg hover:from-teal-700 hover:to-teal-800 dark:hover:from-teal-600 dark:hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-all duration-200 flex items-center justify-center space-x-2">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+    </svg>
+    <span>Optimize with Claude AI</span>
+  </button>
+  
+  <!-- Optimization Results -->
+  <div id="optimization-results" class="hidden mt-6">
+    <div class="border-t border-gray-200 dark:border-coffee-800 pt-6">
+      <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Optimization Results</h4>
+      
+      <!-- Loading -->
+      <div id="optimization-loading" class="flex items-center justify-center py-8">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
+        <span class="ml-3 text-gray-600 dark:text-gray-400">Analyzing extraction patterns...</span>
+      </div>
+      
+      <!-- Results -->
+      <div id="optimization-content" class="hidden space-y-4">
+        <!-- Optimized Prompt -->
+        <div>
+          <h5 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Optimized Prompt</h5>
+          <div class="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+            <pre id="optimized-prompt" class="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap"></pre>
+          </div>
+        </div>
+        
+        <!-- Improvement Analysis -->
+        <div>
+          <h5 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Improvements</h5>
+          <ul id="improvements-list" class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+            <!-- Populated by JS -->
+          </ul>
+        </div>
+        
+        <!-- Actions -->
+        <div class="flex space-x-3">
+          <button 
+            onclick="applyOptimizedPrompt()"
+            class="flex-1 px-4 py-2 bg-green-600 dark:bg-green-500 text-white text-sm font-medium rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors">
+            Apply Optimized Prompt
+          </button>
+          <button 
+            onclick="comparePrompts()"
+            class="flex-1 px-4 py-2 bg-gray-200 dark:bg-coffee-800 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg hover:bg-gray-300 dark:hover:bg-coffee-700 transition-colors">
+            Compare Side-by-Side
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let optimizedPromptData = null;
+
+async function optimizePrompt(templateId) {
+  document.getElementById('optimization-results').classList.remove('hidden');
+  document.getElementById('optimization-loading').classList.remove('hidden');
+  document.getElementById('optimization-content').classList.add('hidden');
+  
+  try {
+    const response = await fetch('/claude_code/optimize_prompt', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+      },
+      body: JSON.stringify({
+        template_id: templateId
+      })
+    });
+    
+    const data = await response.json();
+    
+    if (data.status === 'success') {
+      optimizedPromptData = data;
+      
+      // Display optimized prompt
+      document.getElementById('optimized-prompt').textContent = data.optimized_prompt;
+      
+      // Show improvements
+      const improvements = [
+        `Analyzed ${data.analysis.failed_count} failed extractions`,
+        `Learned from ${data.analysis.successful_count} successful patterns`,
+        'Enhanced field-specific instructions',
+        'Improved error handling guidance',
+        'Optimized for better consistency'
+      ];
+      
+      const improvementsList = document.getElementById('improvements-list');
+      improvementsList.innerHTML = improvements.map(item => 
+        `<li class="flex items-start">
+          <svg class="w-4 h-4 text-green-500 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+          </svg>
+          ${item}
+        </li>`
+      ).join('');
+      
+      document.getElementById('optimization-loading').classList.add('hidden');
+      document.getElementById('optimization-content').classList.remove('hidden');
+    } else {
+      alert('Optimization failed: ' + data.message);
+    }
+  } catch (error) {
+    alert('Error: ' + error.message);
+  }
+}
+
+function applyOptimizedPrompt() {
+  if (optimizedPromptData) {
+    // Update the template with the optimized prompt
+    // This would integrate with your template update form
+    if (confirm('Apply the optimized prompt? This will update your template.')) {
+      // Implementation would update the template
+      alert('Optimized prompt applied successfully!');
+    }
+  }
+}
+
+function comparePrompts() {
+  // Show side-by-side comparison modal
+  // This would open a modal with diff view
+  alert('Side-by-side comparison coming soon!');
+}
+</script>

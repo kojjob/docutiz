@@ -1,0 +1,160 @@
+<div class="space-y-6">
+  <div>
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Webhook Signature Verification</h3>
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      All webhooks sent by Docutiz include a signature in the <code class="bg-gray-100 dark:bg-dark-surface px-1 rounded">X-Webhook-Signature</code> header.
+      This signature should be verified to ensure the webhook is authentic and hasn't been tampered with.
+    </p>
+  </div>
+
+  <div>
+    <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-2">Headers Sent</h4>
+    <div class="bg-gray-50 dark:bg-dark-surface p-4 rounded-lg">
+      <ul class="space-y-2 text-sm">
+        <li><code class="text-blue-600 dark:text-blue-400">X-Webhook-Signature</code>: HMAC-SHA256 signature of the payload</li>
+        <li><code class="text-blue-600 dark:text-blue-400">X-Webhook-Event</code>: The event type (e.g., document.processed)</li>
+        <li><code class="text-blue-600 dark:text-blue-400">X-Webhook-Timestamp</code>: Unix timestamp when the webhook was sent</li>
+        <li><code class="text-blue-600 dark:text-blue-400">X-Webhook-ID</code>: Unique ID for this webhook delivery</li>
+      </ul>
+    </div>
+  </div>
+
+  <div>
+    <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-2">Verification Examples</h4>
+    
+    <!-- Ruby Example -->
+    <div class="mb-4">
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Ruby/Rails:</p>
+      <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm"><code>require 'openssl'
+
+class WebhooksController < ApplicationController
+  skip_before_action :verify_authenticity_token
+  
+  def receive
+    payload = request.body.read
+    signature = request.headers['X-Webhook-Signature']
+    
+    if verify_webhook_signature(payload, signature)
+      # Process the webhook
+      data = JSON.parse(payload)
+      handle_webhook(data)
+      head :ok
+    else
+      head :unauthorized
+    end
+  end
+  
+  private
+  
+  def verify_webhook_signature(payload, signature)
+    secret = ENV['DOCUTIZ_WEBHOOK_SECRET'] # Your webhook secret from settings
+    expected_signature = OpenSSL::HMAC.hexdigest('SHA256', secret, payload)
+    
+    # Use secure comparison to prevent timing attacks
+    ActiveSupport::SecurityUtils.secure_compare(expected_signature, signature)
+  end
+end</code></pre>
+    </div>
+
+    <!-- Node.js Example -->
+    <div class="mb-4">
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Node.js/Express:</p>
+      <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm"><code>const crypto = require('crypto');
+
+app.post('/webhooks/docutiz', express.raw({ type: 'application/json' }), (req, res) => {
+  const signature = req.headers['x-webhook-signature'];
+  const payload = req.body;
+  
+  if (verifyWebhookSignature(payload, signature)) {
+    const data = JSON.parse(payload);
+    handleWebhook(data);
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(401);
+  }
+});
+
+function verifyWebhookSignature(payload, signature) {
+  const secret = process.env.DOCUTIZ_WEBHOOK_SECRET;
+  const expectedSignature = crypto
+    .createHmac('sha256', secret)
+    .update(payload)
+    .digest('hex');
+  
+  // Use timingSafeEqual to prevent timing attacks
+  return crypto.timingSafeEqual(
+    Buffer.from(expectedSignature),
+    Buffer.from(signature)
+  );
+}</code></pre>
+    </div>
+
+    <!-- Python Example -->
+    <div class="mb-4">
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Python/Flask:</p>
+      <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm"><code>import hmac
+import hashlib
+from flask import Flask, request, abort
+
+app = Flask(__name__)
+
+@app.route('/webhooks/docutiz', methods=['POST'])
+def receive_webhook():
+    payload = request.data
+    signature = request.headers.get('X-Webhook-Signature')
+    
+    if verify_webhook_signature(payload, signature):
+        data = request.json
+        handle_webhook(data)
+        return '', 200
+    else:
+        abort(401)
+
+def verify_webhook_signature(payload, signature):
+    secret = os.environ['DOCUTIZ_WEBHOOK_SECRET'].encode()
+    expected_signature = hmac.new(
+        secret,
+        payload,
+        hashlib.sha256
+    ).hexdigest()
+    
+    # Use compare_digest to prevent timing attacks
+    return hmac.compare_digest(expected_signature, signature)</code></pre>
+    </div>
+
+    <!-- PHP Example -->
+    <div>
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">PHP:</p>
+      <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;?php
+$payload = file_get_contents('php://input');
+$signature = $_SERVER['HTTP_X_WEBHOOK_SIGNATURE'] ?? '';
+
+if (verifyWebhookSignature($payload, $signature)) {
+    $data = json_decode($payload, true);
+    handleWebhook($data);
+    http_response_code(200);
+} else {
+    http_response_code(401);
+}
+
+function verifyWebhookSignature($payload, $signature) {
+    $secret = $_ENV['DOCUTIZ_WEBHOOK_SECRET'];
+    $expectedSignature = hash_hmac('sha256', $payload, $secret);
+    
+    // Use hash_equals to prevent timing attacks
+    return hash_equals($expectedSignature, $signature);
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+    <h4 class="font-medium text-yellow-800 dark:text-yellow-200 mb-2">Important Security Notes</h4>
+    <ul class="space-y-1 text-sm text-yellow-700 dark:text-yellow-300">
+      <li>• Always use a constant-time comparison function to prevent timing attacks</li>
+      <li>• Store your webhook secret securely (environment variables, secrets manager)</li>
+      <li>• Never log or expose the webhook secret</li>
+      <li>• Reject webhooks with invalid or missing signatures immediately</li>
+      <li>• Consider implementing replay attack prevention using the timestamp header</li>
+    </ul>
+  </div>
+</div>

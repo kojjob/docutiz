@@ -7,7 +7,7 @@ class WelcomeControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index on www subdomain" do
-    get root_url(subdomain: 'www')
+    get root_url(subdomain: "www")
     assert_response :success
   end
 

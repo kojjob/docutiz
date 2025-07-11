@@ -1,6 +1,11 @@
 class Tenant < ApplicationRecord
   # Associations
   has_many :users, dependent: :destroy
+  has_many :extraction_templates, dependent: :destroy
+  has_many :documents, dependent: :destroy
+  has_many :team_invitations, dependent: :destroy
+  has_many :activities, dependent: :destroy
+  has_many :webhooks, dependent: :destroy
 
   # Validations
   validates :name, presence: true

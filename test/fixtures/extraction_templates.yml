@@ -1,0 +1,35 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+invoice_template:
+  tenant: one
+  name: Invoice Template
+  description: Extract data from invoices
+  document_type: invoice
+  fields: 
+    - name: invoice_number
+      type: string
+      required: true
+    - name: total_amount
+      type: currency
+      required: true
+  prompt_template: Extract invoice data
+  settings: 
+    confidence_threshold: 0.8
+  active: true
+
+receipt_template:
+  tenant: two
+  name: Receipt Template
+  description: Extract data from receipts
+  document_type: receipt
+  fields: 
+    - name: merchant_name
+      type: string
+      required: true
+    - name: total_amount
+      type: currency
+      required: true
+  prompt_template: Extract receipt data
+  settings: 
+    confidence_threshold: 0.75
+  active: true

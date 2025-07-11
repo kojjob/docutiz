@@ -1,0 +1,319 @@
+<% content_for :title, "Features - Docutiz" %>
+
+<div class="min-h-screen bg-gray-50">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+          <%= link_to root_path, class: "text-xl font-bold text-gray-900" do %>
+            Docutiz
+          <% end %>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+          <%= link_to "← Back to Home", root_path, class: "text-gray-700 hover:text-blue-600 font-medium transition-colors" %>
+          <% unless user_signed_in? %>
+            <%= link_to "Start Free Trial", new_user_registration_path, 
+                class: "bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="py-24 bg-gradient-to-r from-blue-600 to-purple-600">
+    <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6">
+        Powerful Features for Document Intelligence
+      </h1>
+      <p class="text-xl text-blue-100 mb-8">
+        Everything you need to automate document processing and unlock hidden value in your business documents.
+      </p>
+    </div>
+  </section>
+
+  <!-- Core Features -->
+  <section class="py-24 -mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-3 gap-8">
+        <!-- Feature 1 -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+          <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold text-gray-900 mb-4">Lightning Fast Processing</h3>
+          <p class="text-gray-600 mb-6">Process documents in under 10 seconds with our optimized AI pipeline. Handle thousands of documents simultaneously with batch processing capabilities.</p>
+          <ul class="text-sm text-gray-500 space-y-3">
+            <li class="flex items-start">
+              <span class="w-1.5 h-1.5 bg-blue-500 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+              <span>Batch processing up to 1000 documents at once</span>
+            </li>
+            <li class="flex items-start">
+              <span class="w-1.5 h-1.5 bg-blue-500 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+              <span>Real-time status updates via WebSocket connections</span>
+            </li>
+            <li class="flex items-start">
+              <span class="w-1.5 h-1.5 bg-blue-500 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+              <span>Automatic retry mechanism for failed extractions</span>
+            </li>
+            <li class="flex items-start">
+              <span class="w-1.5 h-1.5 bg-blue-500 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+              <span>Queue prioritization for urgent documents</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+          <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-600 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold text-gray-900 mb-4">Enterprise-Grade Accuracy</h3>
+          <p class="text-gray-600 mb-6">Achieve 98%+ accuracy with confidence scoring and human-in-the-loop validation for critical documents. Multiple AI models ensure reliability.</p>
+          <ul class="text-sm text-gray-500 space-y-3">
+            <li class="flex items-start">
+              <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+              <span>Multi-model AI validation using GPT-4 Vision and Claude</span>
+            </li>
+            <li class="flex items-start">
+              <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+              <span>Confidence-based routing for quality assurance</span>
+            </li>
+            <li class="flex items-start">
+              <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+              <span>Continuous learning from user corrections</span>
+            </li>
+            <li class="flex items-start">
+              <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+              <span>Custom accuracy thresholds per document type</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+          <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-semibold text-gray-900 mb-4">Smart Templates & Workflows</h3>
+          <p class="text-gray-600 mb-6">Visual template builder with point-and-click field mapping plus advanced workflow automation for your specific business processes.</p>
+          <ul class="text-sm text-gray-500 space-y-3">
+            <li class="flex items-start">
+              <span class="w-1.5 h-1.5 bg-purple-500 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+              <span>Drag-and-drop visual template builder</span>
+            </li>
+            <li class="flex items-start">
+              <span class="w-1.5 h-1.5 bg-purple-500 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+              <span>Multi-step approval workflows with notifications</span>
+            </li>
+            <li class="flex items-start">
+              <span class="w-1.5 h-1.5 bg-purple-500 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+              <span>Conditional routing based on extracted data</span>
+            </li>
+            <li class="flex items-start">
+              <span class="w-1.5 h-1.5 bg-purple-500 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+              <span>Template versioning and A/B testing</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Document Types -->
+  <section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+          Comprehensive Document Support
+        </h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          Pre-trained AI models for the most common business documents, with custom training capabilities for specialized formats.
+        </p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <% [
+          { icon: "📄", title: "Invoices", desc: "Vendor details, line items, totals, tax information, due dates" },
+          { icon: "🧾", title: "Receipts", desc: "Merchant information, amounts, dates, expense categories" },
+          { icon: "🏦", title: "Bank Statements", desc: "Transaction details, balances, account information" },
+          { icon: "📋", title: "Contracts", desc: "Parties, terms, dates, obligations, key clauses" },
+          { icon: "🏥", title: "Medical Records", desc: "Patient info, diagnoses, treatments, insurance data" },
+          { icon: "💰", title: "Tax Documents", desc: "W-2s, 1099s, deductions, income statements" },
+          { icon: "🏠", title: "Real Estate", desc: "Property deeds, leases, inspection reports" },
+          { icon: "⚙️", title: "Custom Types", desc: "Train AI models for your specific document formats" }
+        ].each do |doc| %>
+          <div class="bg-gray-50 rounded-xl p-6 hover:bg-gray-100 transition-colors">
+            <div class="text-3xl mb-3"><%= doc[:icon] %></div>
+            <h3 class="font-semibold text-gray-900 mb-2"><%= doc[:title] %></h3>
+            <p class="text-sm text-gray-600"><%= doc[:desc] %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Integration Features -->
+  <section class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+          Seamless Integration Ecosystem
+        </h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          Connect with your existing tools and workflows through our comprehensive API and pre-built integrations.
+        </p>
+      </div>
+      
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="space-y-8">
+          <div class="flex items-start space-x-4">
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">RESTful API & SDKs</h3>
+              <p class="text-gray-600">Comprehensive API with SDKs for Python, Node.js, Ruby, and Java. Complete with authentication, rate limiting, and comprehensive documentation.</p>
+            </div>
+          </div>
+          
+          <div class="flex items-start space-x-4">
+            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17H4l5 5v-5z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12l8-8m0 8l-8-8"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">Real-time Webhooks</h3>
+              <p class="text-gray-600">Instant notifications for document processing events, extraction completion, and approval workflow updates with guaranteed delivery.</p>
+            </div>
+          </div>
+          
+          <div class="flex items-start space-x-4">
+            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">Enterprise Connectors</h3>
+              <p class="text-gray-600">Pre-built integrations with QuickBooks, Salesforce, SAP, Microsoft Dynamics, and 50+ other business applications.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+          <h3 class="text-lg font-semibold text-gray-900 mb-6">Popular Integrations</h3>
+          <div class="grid grid-cols-3 gap-4">
+            <% [
+              { name: "QuickBooks", color: "bg-green-600" },
+              { name: "Salesforce", color: "bg-blue-600" },
+              { name: "SAP", color: "bg-blue-800" },
+              { name: "Zapier", color: "bg-orange-600" },
+              { name: "Slack", color: "bg-purple-600" },
+              { name: "Microsoft", color: "bg-blue-500" },
+              { name: "Google", color: "bg-red-600" },
+              { name: "Dropbox", color: "bg-blue-700" },
+              { name: "Box", color: "bg-blue-600" }
+            ].each do |integration| %>
+              <div class="bg-gray-50 rounded-lg p-4 text-center hover:bg-gray-100 transition-colors">
+                <div class="w-8 h-8 <%= integration[:color] %> rounded mx-auto mb-2 flex items-center justify-center">
+                  <span class="text-white font-bold text-xs"><%= integration[:name][0] %></span>
+                </div>
+                <span class="text-xs text-gray-600"><%= integration[:name] %></span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security Features -->
+  <section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+          Enterprise-Grade Security
+        </h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          Your data security is our top priority. We implement multiple layers of protection to keep your documents safe.
+        </p>
+      </div>
+      
+      <div class="grid lg:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">End-to-End Encryption</h3>
+          <p class="text-gray-600">AES-256 encryption for data at rest and TLS 1.3 for data in transit. Your documents are protected throughout the entire processing pipeline.</p>
+        </div>
+        
+        <div class="text-center">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">Compliance Certifications</h3>
+          <p class="text-gray-600">SOC 2 Type II, GDPR, and HIPAA compliant infrastructure. Regular security audits and penetration testing ensure ongoing protection.</p>
+        </div>
+        
+        <div class="text-center">
+          <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m0 0a2 2 0 012 2m-2-2h-6M9 7a2 2 0 00-2 2v6a2 2 0 002 2h6a2 2 0 002-2V9a2 2 0 00-2-2"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">Access Control</h3>
+          <p class="text-gray-600">Role-based permissions, single sign-on (SSO), multi-factor authentication, and comprehensive audit logs for complete access visibility.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-24 bg-gradient-to-r from-blue-600 to-purple-600">
+    <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl lg:text-4xl font-bold text-white mb-6">
+        Experience the Power of AI Document Processing
+      </h2>
+      <p class="text-xl text-blue-100 mb-8">
+        Start your free trial today and see how Docutiz can transform your document workflows.
+      </p>
+      
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <%= link_to new_user_registration_path, 
+            class: "inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-xl bg-white text-blue-600 hover:bg-gray-50 transition-all transform hover:scale-105 shadow-xl" do %>
+          Start Free Trial
+          <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+          </svg>
+        <% end %>
+        <%= link_to pricing_path, class: "inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all" do %>
+          View Pricing
+        <% end %>
+      </div>
+    </div>
+  </section>
+</div>

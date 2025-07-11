@@ -1,0 +1,215 @@
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+  <div class="sm:flex sm:items-center sm:justify-between mb-8">
+    <div>
+      <div class="flex items-center">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100"><%= @webhook.name %></h1>
+        <% if @webhook.active? %>
+          <span class="ml-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+            Active
+          </span>
+        <% else %>
+          <span class="ml-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400">
+            Inactive
+          </span>
+        <% end %>
+      </div>
+      <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+        <%= @webhook.url %>
+      </p>
+    </div>
+    <div class="mt-4 sm:mt-0">
+      <%= link_to edit_webhook_path(@webhook), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" do %>
+        <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+        </svg>
+        Edit
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="mb-8">
+    <div class="border-b border-gray-200 dark:border-coffee-700">
+      <nav class="-mb-px flex space-x-8">
+        <%= link_to webhook_path(@webhook), class: "py-2 px-1 border-b-2 font-medium text-sm #{!request.path.include?('/events') ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Overview
+        <% end %>
+        <%= link_to events_webhook_path(@webhook), class: "py-2 px-1 border-b-2 font-medium text-sm #{request.path.include?('/events') ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Events
+        <% end %>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <%= form_with url: events_webhook_path(@webhook), method: :get, local: true, class: "mb-6" do |f| %>
+    <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700 p-4">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+          <%= select_tag :status, 
+              options_for_select([
+                ["All", ""],
+                ["Delivered", "delivered"],
+                ["Failed", "failed"],
+                ["Pending", "pending"]
+              ], params[:status]),
+              class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm" %>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Event Type</label>
+          <%= select_tag :event_type, 
+              options_for_select([["All", ""]] + @webhook.events.map { |e| [e, e] }, params[:event_type]),
+              class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm" %>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Date From</label>
+          <%= date_field_tag :date_from, params[:date_from],
+              class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm" %>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Date To</label>
+          <%= date_field_tag :date_to, params[:date_to],
+              class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm" %>
+        </div>
+      </div>
+      <div class="mt-4 flex justify-end">
+        <%= f.submit "Filter", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 cursor-pointer" %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Events Table -->
+  <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+    <div class="px-4 py-5 sm:p-6">
+      <% if @events.any? %>
+        <div class="overflow-hidden">
+          <table class="min-w-full">
+            <thead class="bg-gray-50 dark:bg-coffee-900">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Status
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Event
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Response
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Time
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Details
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-coffee-700">
+              <% @events.each do |event| %>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <% case event.status %>
+                    <% when 'delivered' %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                        Delivered
+                      </span>
+                    <% when 'failed' %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
+                        Failed
+                      </span>
+                    <% when 'pending' %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
+                        Pending
+                      </span>
+                    <% else %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400">
+                        <%= event.status.capitalize %>
+                      </span>
+                    <% end %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900 dark:text-gray-100"><%= event.event_type %></div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                      <%= event.created_at.strftime("%b %d, %I:%M %p") %>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <% if event.response_code %>
+                      <div class="text-sm text-gray-900 dark:text-gray-100">
+                        <%= event.response_code %>
+                      </div>
+                      <% if event.response_time %>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">
+                          <%= (event.response_time * 1000).round %>ms
+                        </div>
+                      <% end %>
+                    <% else %>
+                      <span class="text-sm text-gray-500 dark:text-gray-400">-</span>
+                    <% end %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                    <%= time_ago_in_words(event.created_at) %> ago
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <button type="button" onclick="showEventDetails('<%= event.id %>')" class="text-teal-600 hover:text-teal-900 dark:text-teal-400">
+                      View
+                    </button>
+                  </td>
+                </tr>
+                
+                <!-- Hidden detail row -->
+                <tr id="event-<%= event.id %>" class="hidden">
+                  <td colspan="5" class="px-6 py-4 bg-gray-50 dark:bg-coffee-900">
+                    <div class="space-y-4">
+                      <div>
+                        <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Payload</h4>
+                        <pre class="text-xs bg-gray-100 dark:bg-coffee-800 p-3 rounded overflow-x-auto"><%= JSON.pretty_generate(event.payload) %></pre>
+                      </div>
+                      <% if event.error_message %>
+                        <div>
+                          <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Error</h4>
+                          <p class="text-sm text-red-600 dark:text-red-400"><%= event.error_message %></p>
+                        </div>
+                      <% end %>
+                      <% if event.response_body %>
+                        <div>
+                          <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Response</h4>
+                          <pre class="text-xs bg-gray-100 dark:bg-coffee-800 p-3 rounded overflow-x-auto"><%= event.response_body %></pre>
+                        </div>
+                      <% end %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="mt-6">
+          <%== pagy_nav(@events) %>
+        </div>
+      <% else %>
+        <div class="text-center py-12">
+          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>
+          <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">No events found</h3>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Try adjusting your filters or send a test webhook.
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+function showEventDetails(eventId) {
+  const row = document.getElementById('event-' + eventId);
+  if (row.classList.contains('hidden')) {
+    row.classList.remove('hidden');
+  } else {
+    row.classList.add('hidden');
+  }
+}
+</script>

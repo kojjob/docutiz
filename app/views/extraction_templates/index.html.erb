@@ -1,0 +1,356 @@
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Header -->
+  <div class="mb-8">
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Extraction Templates</h1>
+        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+          Manage your document extraction templates and create new ones
+        </p>
+      </div>
+      <div class="mt-4 sm:mt-0 flex items-center space-x-3">
+        <%= link_to library_extraction_templates_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-200" do %>
+          <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+          Browse Library
+        <% end %>
+        
+        <div class="relative" data-controller="dropdown">
+          <button type="button" 
+                  data-action="click->dropdown#toggle"
+                  class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-200">
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            New Template
+            <svg class="ml-2 -mr-1 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          
+          <div data-dropdown-target="menu"
+               class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-white dark:bg-coffee-800 ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 dark:divide-coffee-700 z-10">
+            <div class="py-1">
+              <% ExtractionTemplate::DOCUMENT_TYPES.each do |type| %>
+                <%= link_to new_extraction_template_path(document_type: type), 
+                    class: "block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-coffee-700 transition-colors duration-150" do %>
+                  <div class="flex items-center">
+                    <svg class="h-4 w-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <%= type.humanize %> Template
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+            <div class="py-1">
+              <%= link_to new_extraction_template_path, 
+                  class: "block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-coffee-700 transition-colors duration-150" do %>
+                <div class="flex items-center">
+                  <svg class="h-4 w-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                  </svg>
+                  Custom Template
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <div class="relative overflow-hidden rounded-lg bg-white dark:bg-coffee-800 p-6 shadow-sm border border-gray-200 dark:border-coffee-700">
+      <dt>
+        <div class="absolute rounded-lg bg-teal-500 p-3">
+          <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+        </div>
+        <p class="ml-16 text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Total Templates</p>
+      </dt>
+      <dd class="ml-16 flex items-baseline">
+        <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+          <%= @stats[:total_templates] %>
+        </p>
+      </dd>
+    </div>
+
+    <div class="relative overflow-hidden rounded-lg bg-white dark:bg-coffee-800 p-6 shadow-sm border border-gray-200 dark:border-coffee-700">
+      <dt>
+        <div class="absolute rounded-lg bg-green-500 p-3">
+          <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <p class="ml-16 text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Active Templates</p>
+      </dt>
+      <dd class="ml-16 flex items-baseline">
+        <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+          <%= @stats[:active_templates] %>
+        </p>
+      </dd>
+    </div>
+
+    <div class="relative overflow-hidden rounded-lg bg-white dark:bg-coffee-800 p-6 shadow-sm border border-gray-200 dark:border-coffee-700">
+      <dt>
+        <div class="absolute rounded-lg bg-blue-500 p-3">
+          <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        </div>
+        <p class="ml-16 text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Total Extractions</p>
+      </dt>
+      <dd class="ml-16 flex items-baseline">
+        <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+          <%= number_with_delimiter(@stats[:total_extractions]) %>
+        </p>
+      </dd>
+    </div>
+
+    <div class="relative overflow-hidden rounded-lg bg-white dark:bg-coffee-800 p-6 shadow-sm border border-gray-200 dark:border-coffee-700">
+      <dt>
+        <div class="absolute rounded-lg bg-purple-500 p-3">
+          <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+          </svg>
+        </div>
+        <p class="ml-16 text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Success Rate</p>
+      </dt>
+      <dd class="ml-16 flex items-baseline">
+        <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+          <%= @stats[:success_rate] %>%
+        </p>
+      </dd>
+    </div>
+  </div>
+
+  <!-- Quick Actions Bar -->
+  <div class="mb-8 bg-gray-50 dark:bg-coffee-900 rounded-lg p-4 border border-gray-200 dark:border-coffee-700">
+    <div class="flex flex-wrap items-center gap-4">
+      <div class="flex-1">
+        <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">Quick Actions</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Import templates or browse the library</p>
+      </div>
+      <div class="flex items-center space-x-3">
+        <form action="<%= import_extraction_templates_path %>" method="post" enctype="multipart/form-data" class="inline-flex">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <label class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 cursor-pointer transition-colors duration-200">
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+            Import Template
+            <input type="file" name="template_file" accept=".json" class="hidden" onchange="this.form.submit()">
+          </label>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Templates List -->
+  <% if @templates.any? %>
+    <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+        <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">
+          Your Templates
+        </h3>
+      </div>
+      
+      <!-- Templates Table -->
+      <div class="overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-coffee-700">
+          <thead class="bg-gray-50 dark:bg-coffee-900">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Template
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Type
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Fields
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Usage
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Success Rate
+              </th>
+              <th scope="col" class="relative px-6 py-3">
+                <span class="sr-only">Actions</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white dark:bg-coffee-800 divide-y divide-gray-200 dark:divide-coffee-700">
+            <% @templates.each_with_index do |template, index| %>
+              <tr class="<%= index.even? ? 'bg-white dark:bg-coffee-800' : 'bg-gray-50 dark:bg-coffee-900' %> hover:bg-gray-50 dark:hover:bg-coffee-700 transition-colors duration-150">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div>
+                    <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                      <%= link_to template.name, template, class: "hover:text-teal-600 dark:hover:text-teal-400 transition-colors duration-200" %>
+                    </div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                      Created <%= template.created_at.strftime("%b %d, %Y") %>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200">
+                    <%= template.document_type.humanize %>
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                  <%= template.fields.size %> fields
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900 dark:text-gray-100">
+                    <%= number_with_delimiter(template.documents.count) %> documents
+                  </div>
+                  <div class="text-sm text-gray-500 dark:text-gray-400">
+                    <% if template.active? %>
+                      <span class="inline-flex items-center text-green-600 dark:text-green-400">
+                        <svg class="mr-1 h-3 w-3" fill="currentColor" viewBox="0 0 8 8">
+                          <circle cx="4" cy="4" r="3" />
+                        </svg>
+                        Active
+                      </span>
+                    <% else %>
+                      <span class="inline-flex items-center text-gray-400 dark:text-gray-500">
+                        <svg class="mr-1 h-3 w-3" fill="currentColor" viewBox="0 0 8 8">
+                          <circle cx="4" cy="4" r="3" />
+                        </svg>
+                        Inactive
+                      </span>
+                    <% end %>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <% if template.extraction_success_rate > 0 %>
+                    <div class="flex items-center">
+                      <span class="text-sm font-medium text-gray-900 dark:text-gray-100 mr-2">
+                        <%= template.extraction_success_rate %>%
+                      </span>
+                      <div class="w-16 bg-gray-200 dark:bg-coffee-700 rounded-full h-2">
+                        <div class="bg-teal-500 h-2 rounded-full" style="width: <%= template.extraction_success_rate %>%"></div>
+                      </div>
+                    </div>
+                  <% else %>
+                    <span class="text-sm text-gray-400 dark:text-gray-500">—</span>
+                  <% end %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <div class="flex items-center justify-end space-x-2">
+                    <%= link_to edit_extraction_template_path(template), class: "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200", title: "Edit" do %>
+                      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                    <% end %>
+                    
+                    <div class="relative" data-controller="dropdown">
+                      <button type="button" 
+                              data-action="click->dropdown#toggle"
+                              class="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                        </svg>
+                      </button>
+                      
+                      <div data-dropdown-target="menu"
+                           class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-lg shadow-lg bg-white dark:bg-coffee-800 ring-1 ring-black ring-opacity-5 z-10">
+                        <div class="py-1">
+                          <%= link_to "View Details", template, class: "block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-coffee-700 transition-colors duration-150" %>
+                          <%= link_to "Test Template", test_extraction_template_path(template), class: "block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-coffee-700 transition-colors duration-150", data: { turbo_frame: "test_modal" } %>
+                          <%= link_to "Duplicate", duplicate_extraction_template_path(template), method: :post, class: "block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-coffee-700 transition-colors duration-150" %>
+                          <%= link_to "Export", export_extraction_template_path(template, format: :json), class: "block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-coffee-700 transition-colors duration-150" %>
+                          <div class="border-t border-gray-100 dark:border-coffee-700"></div>
+                          <%= link_to "Delete", template, method: :delete, data: { confirm: "Are you sure?" }, class: "block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-150" %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% else %>
+    <!-- Empty State -->
+    <div class="text-center py-16">
+      <div class="mx-auto max-w-sm">
+        <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+        </svg>
+        <h3 class="mt-4 text-base font-medium text-gray-900 dark:text-gray-100">No templates yet</h3>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+          Get started by creating your first template or browse the library for pre-made options.
+        </p>
+        <div class="mt-6 flex justify-center space-x-3">
+          <%= link_to new_extraction_template_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-200" do %>
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            Create Template
+          <% end %>
+          
+          <%= link_to library_extraction_templates_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-200" do %>
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+            Browse Library
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  
+  <!-- Pagination -->
+  <% if @pagy && @pagy.pages > 1 %>
+    <div class="mt-8 flex justify-center">
+      <%== pagy_nav(@pagy) %>
+    </div>
+  <% end %>
+</div>
+
+<!-- Test Modal Frame -->
+<turbo-frame id="test_modal"></turbo-frame>
+
+<script>
+// Enhanced dropdown controller
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle all dropdowns
+  document.querySelectorAll('[data-controller="dropdown"]').forEach(function(dropdown) {
+    const button = dropdown.querySelector('[data-action="click->dropdown#toggle"]');
+    const menu = dropdown.querySelector('[data-dropdown-target="menu"]');
+    
+    if (button && menu) {
+      button.addEventListener('click', function(e) {
+        e.stopPropagation();
+        
+        // Close other dropdowns
+        document.querySelectorAll('[data-dropdown-target="menu"]').forEach(function(otherMenu) {
+          if (otherMenu !== menu) {
+            otherMenu.classList.add('hidden');
+          }
+        });
+        
+        menu.classList.toggle('hidden');
+      });
+      
+      // Close on click outside
+      document.addEventListener('click', function() {
+        menu.classList.add('hidden');
+      });
+      
+      // Prevent menu clicks from closing
+      menu.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    }
+  });
+});
+</script>

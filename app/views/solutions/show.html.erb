@@ -1,0 +1,109 @@
+<div class="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+  <!-- Hero Section -->
+  <section class="relative py-24 overflow-hidden">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-5xl font-bold text-gray-900 mb-6">
+          <%= @solution[:title] %>
+        </h1>
+        <p class="text-xl text-gray-600 mb-8">
+          <%= @solution[:description] %>
+        </p>
+        <div class="flex gap-4 justify-center">
+          <%= link_to "Get Started", new_user_registration_path, 
+              class: "bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition" %>
+          <%= link_to "Request Demo", contact_path, 
+              class: "bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold border-2 border-blue-600 hover:bg-blue-50 transition" %>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12">Key Features</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <% @features.each do |feature| %>
+          <div class="text-center p-6">
+            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold mb-2"><%= feature[:title] %></h3>
+            <p class="text-gray-600"><%= feature[:description] %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12">Benefits</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <% @benefits.each do |benefit| %>
+          <div class="flex items-start">
+            <svg class="w-6 h-6 text-green-500 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <p class="text-lg text-gray-700"><%= benefit %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Use Cases Section -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12">Use Cases</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <% @use_cases.each do |use_case| %>
+          <div class="bg-gray-50 p-6 rounded-lg">
+            <h3 class="text-xl font-semibold mb-3"><%= use_case[:title] %></h3>
+            <p class="text-gray-600"><%= use_case[:description] %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <% if @testimonials.present? %>
+    <section class="py-20 bg-blue-50">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">What Our Customers Say</h2>
+        <div class="max-w-4xl mx-auto">
+          <% @testimonials.each do |testimonial| %>
+            <div class="bg-white p-8 rounded-lg shadow-md">
+              <p class="text-lg italic text-gray-700 mb-4">"<%= testimonial[:quote] %>"</p>
+              <div class="flex items-center">
+                <div>
+                  <p class="font-semibold"><%= testimonial[:author] %></p>
+                  <p class="text-gray-600"><%= testimonial[:role] %></p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </section>
+  <% end %>
+
+  <!-- CTA Section -->
+  <section class="py-20 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-4">Ready to Transform Your Document Processing?</h2>
+      <p class="text-xl mb-8 opacity-90">Start your free trial today and see the difference AI can make</p>
+      <div class="flex gap-4 justify-center">
+        <%= link_to "Start Free Trial", new_user_registration_path, 
+            class: "bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition" %>
+        <%= link_to "Schedule Demo", contact_path, 
+            class: "bg-blue-800 text-white px-8 py-4 rounded-lg font-semibold border-2 border-white hover:bg-blue-900 transition" %>
+      </div>
+    </div>
+  </section>
+</div>

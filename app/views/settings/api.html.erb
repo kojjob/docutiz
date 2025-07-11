@@ -1,0 +1,210 @@
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Settings</h1>
+      <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+        Manage your account settings and preferences
+      </p>
+    </div>
+
+    <!-- Settings Navigation -->
+    <div class="mb-8">
+      <nav class="flex space-x-8 border-b border-gray-200 dark:border-coffee-700">
+        <%= link_to profile_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(profile_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Profile
+        <% end %>
+        
+        <%= link_to notifications_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(notifications_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Notifications
+        <% end %>
+        
+        <%= link_to collaboration_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(collaboration_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Collaboration
+        <% end %>
+        
+        <%= link_to api_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(api_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          API
+        <% end %>
+        
+        <%= link_to integrations_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(integrations_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Integrations
+        <% end %>
+        
+        <% if current_user.owner? %>
+          <%= link_to tenant_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(tenant_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+            Organization
+          <% end %>
+          
+          <%= link_to billing_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(billing_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+            Billing
+          <% end %>
+          
+          <%= link_to security_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(security_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+            Security
+          <% end %>
+        <% end %>
+      </nav>
+    </div>
+
+    <!-- API Token -->
+    <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700 mb-6">
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+        <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">API Token</h3>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          Use this token to authenticate API requests
+        </p>
+      </div>
+      <div class="px-6 py-6">
+        <% if flash[:api_token].present? %>
+          <!-- New Token Alert -->
+          <div class="mb-4 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+            <div class="flex items-start">
+              <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <div class="flex-1">
+                <h4 class="text-sm font-medium text-amber-800 dark:text-amber-200 mb-1">New API Token Generated</h4>
+                <p class="text-sm text-amber-700 dark:text-amber-300 mb-2">
+                  Save this token now! For security reasons, it won't be shown again.
+                </p>
+                <div class="flex items-center space-x-2">
+                  <input type="text" 
+                         value="<%= flash[:api_token] %>" 
+                         id="new-api-token"
+                         readonly
+                         class="flex-1 px-3 py-2 border border-amber-300 dark:border-amber-700 rounded-lg bg-white dark:bg-coffee-800 text-gray-900 dark:text-gray-100 font-mono text-sm">
+                  <button onclick="copyToClipboard('new-api-token')" 
+                          class="px-3 py-2 bg-amber-600 dark:bg-amber-700 text-white rounded-lg hover:bg-amber-700 dark:hover:bg-amber-800 transition-colors text-sm">
+                    Copy
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        
+        <div class="flex items-center space-x-4">
+          <div class="flex-1">
+            <div class="relative">
+              <input type="text" 
+                     value="<%= @user.api_token_digest.present? ? 'doc_••••••••••••••••••••••••••••••••••••••••••••••••' : 'No API token generated' %>" 
+                     readonly
+                     disabled
+                     class="block w-full pr-10 rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 text-gray-500 dark:text-gray-500 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm font-mono"
+                     id="api-token">
+            </div>
+          </div>
+          <%= link_to regenerate_api_token_path, method: :post, data: { confirm: "Are you sure? This will invalidate your current token." }, class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" do %>
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <%= @user.api_token_digest.present? ? 'Regenerate' : 'Generate' %>
+          <% end %>
+        </div>
+        
+        <% if @user.api_token_last_used_at %>
+          <p class="mt-3 text-sm text-gray-500 dark:text-gray-400">
+            Last used <%= time_ago_in_words(@user.api_token_last_used_at) %> ago
+          </p>
+        <% else %>
+          <p class="mt-3 text-sm text-gray-500 dark:text-gray-400">
+            Never used
+          </p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- API Usage -->
+    <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700 mb-6">
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+        <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">API Usage</h3>
+      </div>
+      <div class="px-6 py-6">
+        <dl class="grid grid-cols-1 gap-5 sm:grid-cols-3">
+          <div class="bg-gray-50 dark:bg-coffee-900 px-4 py-5 rounded-lg">
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+              Requests Today
+            </dt>
+            <dd class="mt-1 text-3xl font-semibold text-gray-900 dark:text-gray-100">
+              <%= number_with_delimiter(@api_usage[:requests_today]) %>
+            </dd>
+          </div>
+          
+          <div class="bg-gray-50 dark:bg-coffee-900 px-4 py-5 rounded-lg">
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+              This Month
+            </dt>
+            <dd class="mt-1 text-3xl font-semibold text-gray-900 dark:text-gray-100">
+              <%= number_with_delimiter(@api_usage[:requests_this_month]) %>
+            </dd>
+          </div>
+          
+          <div class="bg-gray-50 dark:bg-coffee-900 px-4 py-5 rounded-lg">
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+              Total Requests
+            </dt>
+            <dd class="mt-1 text-3xl font-semibold text-gray-900 dark:text-gray-100">
+              <%= number_with_delimiter(@user.api_requests_count) %>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <!-- API Documentation -->
+    <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+        <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Quick Start</h3>
+      </div>
+      <div class="px-6 py-6 space-y-4">
+        <div>
+          <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Authentication</h4>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+            Include your API token in the Authorization header:
+          </p>
+          <div class="bg-gray-50 dark:bg-coffee-900 rounded-lg p-4">
+            <code class="text-sm text-gray-800 dark:text-gray-200">
+              Authorization: Bearer your_api_token
+            </code>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Example Request</h4>
+          <div class="bg-gray-50 dark:bg-coffee-900 rounded-lg p-4">
+            <pre class="text-sm text-gray-800 dark:text-gray-200 overflow-x-auto"><code>curl -X POST https://<%= Current.tenant.subdomain %>.docutiz.com/api/v1/document_extractions \
+  -H "Authorization: Bearer your_api_token" \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@invoice.pdf" \
+  -F "template_id=123"</code></pre>
+          </div>
+        </div>
+        
+        <div class="pt-4">
+          <a href="/api-docs" class="text-sm font-medium text-teal-600 hover:text-teal-500 dark:text-teal-400 dark:hover:text-teal-300">
+            View Full API Documentation →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function copyToClipboard(elementId) {
+  const element = document.getElementById(elementId);
+  element.select();
+  element.setSelectionRange(0, 99999);
+  document.execCommand('copy');
+  
+  // Show feedback
+  const button = element.nextElementSibling;
+  const originalHTML = button.innerHTML;
+  button.innerHTML = '<svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+  
+  setTimeout(() => {
+    button.innerHTML = originalHTML;
+  }, 2000);
+}
+</script>

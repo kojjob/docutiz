@@ -1,0 +1,34 @@
+<%= turbo_frame_tag "document_#{document.id}_status" do %>
+  <% case document.status %>
+  <% when "pending" %>
+    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+      <div class="w-1.5 h-1.5 bg-gray-400 dark:bg-gray-400 rounded-full mr-1.5"></div>
+      Pending
+    </span>
+  <% when "processing" %>
+    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200">
+      <div class="w-1.5 h-1.5 bg-yellow-400 dark:bg-yellow-400 rounded-full mr-1.5 animate-pulse"></div>
+      Processing
+    </span>
+  <% when "completed" %>
+    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200">
+      <div class="w-1.5 h-1.5 bg-green-400 dark:bg-green-400 rounded-full mr-1.5"></div>
+      Completed
+    </span>
+  <% when "failed" %>
+    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200">
+      <div class="w-1.5 h-1.5 bg-red-400 dark:bg-red-400 rounded-full mr-1.5"></div>
+      Failed
+    </span>
+  <% when "requires_review" %>
+    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200">
+      <div class="w-1.5 h-1.5 bg-amber-400 dark:bg-amber-400 rounded-full mr-1.5"></div>
+      Review Required
+    </span>
+  <% when "approved" %>
+    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 dark:bg-teal-900/30 text-teal-800 dark:text-teal-200">
+      <div class="w-1.5 h-1.5 bg-teal-400 dark:bg-teal-400 rounded-full mr-1.5"></div>
+      Approved
+    </span>
+  <% end %>
+<% end %>

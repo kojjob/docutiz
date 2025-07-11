@@ -1,0 +1,94 @@
+<div class="px-4 py-8 sm:px-6 lg:px-8 max-w-3xl mx-auto">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Upload Document</h1>
+    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Upload a document to extract structured data using AI</p>
+  </div>
+
+  <%= form_with(model: @document, local: true) do |form| %>
+    <% if @document.errors.any? %>
+      <div class="mb-6 rounded-lg bg-red-50 dark:bg-red-900/20 p-4">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-red-800 dark:text-red-200">
+              There <%= @document.errors.count == 1 ? 'was' : 'were' %> <%= pluralize(@document.errors.count, "error") %> with your submission
+            </h3>
+            <div class="mt-2 text-sm text-red-700 dark:text-red-300">
+              <ul class="list-disc space-y-1 pl-5">
+                <% @document.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="bg-white dark:bg-dark-surface rounded-xl shadow-sm border border-gray-100 dark:border-dark-border">
+      <div class="p-6 space-y-6">
+        <!-- Document Name -->
+        <div>
+          <%= form.label :name, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+          <%= form.text_field :name, 
+              class: "block w-full px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg focus:ring-teal-500 focus:border-teal-500 dark:bg-coffee-900 dark:text-gray-100",
+              placeholder: "e.g., Invoice #123" %>
+        </div>
+
+        <!-- Description -->
+        <div>
+          <%= form.label :description, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+          <%= form.text_area :description, 
+              rows: 3,
+              class: "block w-full px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg focus:ring-teal-500 focus:border-teal-500 dark:bg-coffee-900 dark:text-gray-100",
+              placeholder: "Add any notes about this document..." %>
+        </div>
+
+        <!-- Extraction Template -->
+        <div>
+          <%= form.label :extraction_template_id, "Extraction Template", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+          <%= form.select :extraction_template_id,
+              options_from_collection_for_select(@extraction_templates, :id, :name, @document.extraction_template_id),
+              { include_blank: "No template (store only)" },
+              class: "block w-full px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg focus:ring-teal-500 focus:border-teal-500 dark:bg-coffee-900 dark:text-gray-100" %>
+          <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+            Select a template to automatically extract data from your document
+          </p>
+        </div>
+
+        <!-- File Upload -->
+        <div>
+          <%= form.label :file, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+          <div class="mt-2">
+            <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-coffee-700 border-dashed rounded-lg hover:border-gray-400 dark:hover:border-coffee-600 transition-colors dark:bg-coffee-900/50">
+              <div class="space-y-1 text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                  <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <div class="flex text-sm text-gray-600 dark:text-gray-400">
+                  <label for="file-upload" class="relative cursor-pointer rounded-md bg-white dark:bg-transparent font-medium text-teal-600 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-300 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-teal-500">
+                    <span>Upload a file</span>
+                    <%= form.file_field :file, id: "file-upload", class: "sr-only", accept: "image/*,application/pdf" %>
+                  </label>
+                  <p class="pl-1">or drag and drop</p>
+                </div>
+                <p class="text-xs text-gray-500 dark:text-gray-400">PDF, PNG, JPG up to 10MB</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="px-6 py-4 bg-gray-50 dark:bg-coffee-900 border-t border-gray-100 dark:border-dark-border rounded-b-xl flex items-center justify-end space-x-3">
+        <%= link_to "Cancel", documents_path, class: "px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200" %>
+        <%= form.submit "Upload Document", class: "px-4 py-2 bg-teal-600 dark:bg-teal-500 text-white text-sm font-medium rounded-lg hover:bg-teal-700 dark:hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors" %>
+      </div>
+    </div>
+  <% end %>
+</div>

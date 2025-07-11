@@ -1,0 +1,190 @@
+<div class="min-h-screen bg-gray-50 dark:bg-dark-bg">
+  <!-- Simple Navigation Header -->
+  <nav class="bg-white dark:bg-dark-surface border-b border-gray-200 dark:border-dark-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-8">
+          <!-- Logo -->
+          <a href="/" class="flex items-center space-x-2">
+            <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded flex items-center justify-center">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+            </div>
+            <span class="font-semibold text-xl text-gray-900 dark:text-gray-100">Docutiz</span>
+          </a>
+          
+          <!-- Navigation Links -->
+          <div class="hidden md:flex items-center space-x-6">
+            <a href="/help" class="text-teal-600 dark:text-teal-400 font-medium">Help Center</a>
+            <a href="/api-docs" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">API Docs</a>
+            <a href="/changelog" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">Changelog</a>
+          </div>
+        </div>
+        
+        <!-- Right side -->
+        <div class="flex items-center space-x-4">
+          <% if user_signed_in? %>
+            <a href="/dashboard" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">Dashboard</a>
+          <% else %>
+            <%= link_to "Sign In", new_user_session_path, class: "text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100" %>
+            <%= link_to "Get Started", new_user_registration_path, class: "px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header -->
+    <div class="mb-12 text-center">
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100">How can we help you?</h1>
+      <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+        Find answers to common questions or get in touch with our support team
+      </p>
+    </div>
+
+    <!-- Search Box -->
+    <div class="max-w-2xl mx-auto mb-12">
+      <div class="relative">
+        <input type="text" placeholder="Search for help..." class="w-full px-4 py-3 pl-12 text-gray-900 dark:text-gray-100 placeholder-gray-500 bg-white dark:bg-dark-surface border border-gray-300 dark:border-dark-border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
+        <svg class="absolute left-4 top-3.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Help Categories -->
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-12">
+      <!-- Getting Started -->
+      <div class="bg-white dark:bg-dark-surface shadow rounded-lg p-6 hover:shadow-lg transition-shadow">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-teal-100 dark:bg-teal-900/20 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <h3 class="ml-3 text-lg font-semibold text-gray-900 dark:text-gray-100">Getting Started</h3>
+        </div>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Quick Start Guide</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Creating Your First Template</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Uploading Documents</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Understanding Results</a></li>
+        </ul>
+      </div>
+
+      <!-- Templates -->
+      <div class="bg-white dark:bg-dark-surface shadow rounded-lg p-6 hover:shadow-lg transition-shadow">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+            </svg>
+          </div>
+          <h3 class="ml-3 text-lg font-semibold text-gray-900 dark:text-gray-100">Templates</h3>
+        </div>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Template Builder Guide</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Field Types & Validation</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Advanced Extraction Rules</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Template Best Practices</a></li>
+        </ul>
+      </div>
+
+      <!-- API & Integration -->
+      <div class="bg-white dark:bg-dark-surface shadow rounded-lg p-6 hover:shadow-lg transition-shadow">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+            </svg>
+          </div>
+          <h3 class="ml-3 text-lg font-semibold text-gray-900 dark:text-gray-100">API & Integration</h3>
+        </div>
+        <ul class="space-y-2">
+          <li><a href="/api-docs" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">API Documentation</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Authentication Guide</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Webhook Configuration</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">SDK Downloads</a></li>
+        </ul>
+      </div>
+
+      <!-- Billing & Account -->
+      <div class="bg-white dark:bg-dark-surface shadow rounded-lg p-6 hover:shadow-lg transition-shadow">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+            </svg>
+          </div>
+          <h3 class="ml-3 text-lg font-semibold text-gray-900 dark:text-gray-100">Billing & Account</h3>
+        </div>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Subscription Plans</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Payment Methods</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Usage & Billing History</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Account Settings</a></li>
+        </ul>
+      </div>
+
+      <!-- Security -->
+      <div class="bg-white dark:bg-dark-surface shadow rounded-lg p-6 hover:shadow-lg transition-shadow">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-red-100 dark:bg-red-900/20 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+          </div>
+          <h3 class="ml-3 text-lg font-semibold text-gray-900 dark:text-gray-100">Security</h3>
+        </div>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Two-Factor Authentication</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">API Key Management</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Data Encryption</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Compliance & Certifications</a></li>
+        </ul>
+      </div>
+
+      <!-- Troubleshooting -->
+      <div class="bg-white dark:bg-dark-surface shadow rounded-lg p-6 hover:shadow-lg transition-shadow">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="ml-3 text-lg font-semibold text-gray-900 dark:text-gray-100">Troubleshooting</h3>
+        </div>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Common Issues</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Error Messages</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">Performance Tips</a></li>
+          <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400">System Requirements</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Contact Support -->
+    <div class="bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 rounded-lg p-8 text-center">
+      <h2 class="text-2xl font-semibold text-teal-900 dark:text-teal-100 mb-4">Still need help?</h2>
+      <p class="text-teal-700 dark:text-teal-300 mb-6">
+        Our support team is here to assist you with any questions or issues.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="mailto:support@docutiz.com" class="inline-flex items-center justify-center px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 font-medium">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+          </svg>
+          Email Support
+        </a>
+        <a href="#" class="inline-flex items-center justify-center px-6 py-3 bg-white dark:bg-dark-surface text-teal-600 dark:text-teal-400 border border-teal-600 dark:border-teal-400 rounded-lg hover:bg-teal-50 dark:hover:bg-teal-900/20 font-medium">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+          </svg>
+          Live Chat
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

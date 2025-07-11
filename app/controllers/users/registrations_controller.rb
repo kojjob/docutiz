@@ -1,4 +1,9 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  # Rate limiting for signup attempts
+  rate_limit to: 3, within: 1.hour, only: :create,
+             by: -> { request.remote_ip },
+             with: -> { render json: { error: 'Too many signup attempts. Please try again later.' }, status: :too_many_requests }
+  
   skip_before_action :authenticate_user!, only: [ :new, :create ]
   skip_before_action :set_current_tenant, only: [ :new, :create ]
 

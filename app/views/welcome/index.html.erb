@@ -1,54 +1,558 @@
-<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-  <div class="max-w-8xl mx-auto px-4 py-16 text-center">
-    <h1 class="text-6xl font-bold text-gray-900 mb-4">
-      Welcome to Docutiz
-    </h1>
-    <p class="text-2xl text-gray-600 mb-8">
-      AI-Powered Document Extraction Platform
-    </p>
-    <div class="bg-white rounded-lg shadow-xl p-8 mb-8">
-      <h2 class="text-2xl font-semibold text-gray-800 mb-4">🚀 Rails 8 Development Server Running!</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
-        <div class="space-y-2">
-          <h3 class="font-semibold text-gray-700">✅ Core Setup</h3>
-          <ul class="text-sm text-gray-600 space-y-1">
-            <li>• Rails 8.0.2</li>
-            <li>• PostgreSQL Database</li>
-            <li>• Tailwind CSS</li>
-            <li>• Hotwire/Turbo</li>
-          </ul>
+<% content_for :title, "Docutiz - AI-Powered Document Extraction Platform" %>
+<% content_for :head do %>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .hero-pattern {
+      background-image: 
+        radial-gradient(circle at 25px 25px, rgba(255,255,255,0.1) 2px, transparent 0),
+        radial-gradient(circle at 75px 75px, rgba(255,255,255,0.1) 2px, transparent 0);
+      background-size: 100px 100px;
+    }
+    .fade-in {
+      animation: fadeInUp 0.8s ease-out forwards;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .fade-in-delay-1 { animation-delay: 0.2s; }
+    .fade-in-delay-2 { animation-delay: 0.4s; }
+    .fade-in-delay-3 { animation-delay: 0.6s; }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .floating {
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    .pulse-slow {
+      animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  </style>
+<% end %>
+
+<!-- Navigation -->
+<nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <div class="flex items-center space-x-2">
+        <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
         </div>
-        <div class="space-y-2">
-          <h3 class="font-semibold text-gray-700">📦 Key Gems</h3>
-          <ul class="text-sm text-gray-600 space-y-1">
-            <li>• Devise (Auth)</li>
-            <li>• Pay (Billing)</li>
-            <li>• Pundit (Authorization)</li>
-            <li>• OpenAI & Anthropic</li>
-          </ul>
-        </div>
-        <div class="space-y-2">
-          <h3 class="font-semibold text-gray-700">🔧 Next Steps</h3>
-          <ul class="text-sm text-gray-600 space-y-1">
-            <li>• Set up Devise</li>
-            <li>• Create models</li>
-            <li>• Build UI components</li>
-            <li>• Integrate AI APIs</li>
-          </ul>
-        </div>
+        <%= link_to root_path, class: "text-xl font-bold text-gray-900" do %>
+          Docutiz
+        <% end %>
       </div>
-    </div>
-    <div class="text-gray-600">
-      <p class="mb-2">View your app at: <code class="bg-gray-200 px-2 py-1 rounded">http://localhost:3000</code></p>
-      <p>Ready to build something amazing! 🎉</p>
       
-      <div class="mt-8 flex justify-center space-x-4">
-        <%= link_to "Sign Up for Free Trial", new_user_registration_path, 
-            class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-        
-        <%= link_to "Sign In", new_user_session_path, 
-            class: "inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="#features" class="text-gray-700 hover:text-blue-600 transition-colors">Features</a>
+        <a href="#pricing" class="text-gray-700 hover:text-blue-600 transition-colors">Pricing</a>
+        <a href="#integrations" class="text-gray-700 hover:text-blue-600 transition-colors">Integrations</a>
+        <%= link_to "About", about_path, class: "text-gray-700 hover:text-blue-600 transition-colors" %>
+      </div>
+      
+      <div class="flex items-center space-x-4">
+        <% if user_signed_in? %>
+          <%= link_to "Dashboard", dashboard_url(subdomain: current_user.tenant&.subdomain), 
+              class: "text-gray-700 hover:text-blue-600 font-medium transition-colors" %>
+        <% else %>
+          <%= link_to "Sign In", new_user_session_path, 
+              class: "text-gray-700 hover:text-blue-600 font-medium transition-colors" %>
+          <%= link_to "Start Free Trial", new_user_registration_path, 
+              class: "bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium" %>
+        <% end %>
       </div>
     </div>
   </div>
-</div>
+</nav>
+
+<!-- Hero Section -->
+<section class="relative min-h-screen flex items-center gradient-bg hero-pattern overflow-hidden">
+  <div class="absolute inset-0 bg-black/20"></div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="text-white">
+        <div class="fade-in">
+          <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white/10 backdrop-blur-sm border border-white/20 mb-6">
+            🚀 Powered by GPT-4 Vision & Claude AI
+          </span>
+        </div>
+        
+        <h1 class="text-4xl lg:text-6xl font-bold mb-6 fade-in fade-in-delay-1">
+          Transform Documents into 
+          <span class="bg-gradient-to-r from-yellow-300 to-pink-300 bg-clip-text text-transparent">
+            Actionable Data
+          </span>
+        </h1>
+        
+        <p class="text-xl lg:text-2xl mb-8 text-white/90 fade-in fade-in-delay-2">
+          AI-powered document extraction that reduces manual data entry by 90%. 
+          Process invoices, receipts, contracts, and more with enterprise-grade accuracy.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 mb-8 fade-in fade-in-delay-3">
+          <%= link_to new_user_registration_path, 
+              class: "inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-xl bg-white text-blue-600 hover:bg-gray-50 transition-all transform hover:scale-105 shadow-xl" do %>
+            Start Free Trial
+            <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          <% end %>
+          <a href="#demo" class="inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all">
+            Watch Demo
+            <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293L12 11m0 0l.707-.707A1 1 0 0113.414 10H15"></path>
+            </svg>
+          </a>
+        </div>
+        
+        <div class="flex items-center space-x-8 text-white/80 fade-in fade-in-delay-3">
+          <div class="flex items-center space-x-2">
+            <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>No credit card required</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>14-day free trial</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="relative floating">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 transform rotate-3 hover:rotate-0 transition-transform duration-500">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-3 h-3 bg-red-400 rounded-full"></div>
+            <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+            <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+          </div>
+          <div class="space-y-4">
+            <div class="h-4 bg-gray-200 rounded w-3/4 pulse-slow"></div>
+            <div class="h-4 bg-gray-200 rounded w-1/2 pulse-slow"></div>
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div class="flex items-center space-x-2 mb-2">
+                <div class="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                  </svg>
+                </div>
+                <span class="font-medium text-gray-900">Invoice Processed</span>
+              </div>
+              <div class="text-sm text-gray-600">
+                <div class="flex justify-between mb-1">
+                  <span>Vendor:</span>
+                  <span class="font-medium">TechCorp Solutions</span>
+                </div>
+                <div class="flex justify-between mb-1">
+                  <span>Amount:</span>
+                  <span class="font-medium text-green-600">$12,450.00</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Due Date:</span>
+                  <span class="font-medium">Dec 15, 2024</span>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center space-x-2">
+                <div class="flex-1 bg-gray-200 rounded-full h-2">
+                  <div class="bg-green-500 h-2 rounded-full w-full"></div>
+                </div>
+                <span class="text-sm font-medium text-green-600">98% confidence</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="text-center">
+        <div class="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">90%</div>
+        <div class="text-gray-600">Reduction in Manual Entry</div>
+      </div>
+      <div class="text-center">
+        <div class="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">98%</div>
+        <div class="text-gray-600">Accuracy Rate</div>
+      </div>
+      <div class="text-center">
+        <div class="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">&lt;10s</div>
+        <div class="text-gray-600">Processing Time</div>
+      </div>
+      <div class="text-center">
+        <div class="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">500%</div>
+        <div class="text-gray-600">ROI Within 12 Months</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl lg:text-5xl font-bold text-gray-900 mb-4">
+        Powerful Features for Modern Businesses
+      </h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Everything you need to automate document processing and unlock hidden value in your business documents.
+      </p>
+    </div>
+    
+    <div class="grid lg:grid-cols-3 gap-8">
+      <!-- Feature 1 -->
+      <div class="group p-8 rounded-2xl border border-gray-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Lightning Fast Processing</h3>
+        <p class="text-gray-600 mb-4">Process documents in under 10 seconds with our optimized AI pipeline. Handle thousands of documents simultaneously.</p>
+        <ul class="text-sm text-gray-500 space-y-2">
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2"></span>Batch processing capability</li>
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2"></span>Real-time status updates</li>
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2"></span>Automatic retry mechanism</li>
+        </ul>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="group p-8 rounded-2xl border border-gray-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+        <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Enterprise-Grade Accuracy</h3>
+        <p class="text-gray-600 mb-4">98%+ accuracy with confidence scoring and human-in-the-loop validation for critical documents.</p>
+        <ul class="text-sm text-gray-500 space-y-2">
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-2"></span>Multi-model AI validation</li>
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-2"></span>Confidence-based routing</li>
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-2"></span>Continuous learning</li>
+        </ul>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="group p-8 rounded-2xl border border-gray-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+        <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Smart Templates & Workflows</h3>
+        <p class="text-gray-600 mb-4">Pre-built templates for common documents plus custom workflow automation for your specific needs.</p>
+        <ul class="text-sm text-gray-500 space-y-2">
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full mr-2"></span>Visual template builder</li>
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full mr-2"></span>Approval workflows</li>
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full mr-2"></span>Conditional routing</li>
+        </ul>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="group p-8 rounded-2xl border border-gray-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+        <div class="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Seamless Integrations</h3>
+        <p class="text-gray-600 mb-4">Connect with your existing tools through our comprehensive API and pre-built integrations.</p>
+        <ul class="text-sm text-gray-500 space-y-2">
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-orange-500 rounded-full mr-2"></span>REST API & SDKs</li>
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-orange-500 rounded-full mr-2"></span>QuickBooks, SAP, Salesforce</li>
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-orange-500 rounded-full mr-2"></span>Webhook notifications</li>
+        </ul>
+      </div>
+
+      <!-- Feature 5 -->
+      <div class="group p-8 rounded-2xl border border-gray-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+        <div class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Enterprise Security</h3>
+        <p class="text-gray-600 mb-4">SOC 2, GDPR, and HIPAA compliant with end-to-end encryption and comprehensive audit trails.</p>
+        <ul class="text-sm text-gray-500 space-y-2">
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-2"></span>End-to-end encryption</li>
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-2"></span>Role-based access control</li>
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-2"></span>Complete audit logs</li>
+        </ul>
+      </div>
+
+      <!-- Feature 6 -->
+      <div class="group p-8 rounded-2xl border border-gray-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+        <div class="w-16 h-16 bg-gradient-to-r from-teal-500 to-green-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Advanced Analytics</h3>
+        <p class="text-gray-600 mb-4">Comprehensive dashboards and reporting to track performance, accuracy, and ROI metrics.</p>
+        <ul class="text-sm text-gray-500 space-y-2">
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-teal-500 rounded-full mr-2"></span>Real-time dashboards</li>
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-teal-500 rounded-full mr-2"></span>Custom report builder</li>
+          <li class="flex items-center"><span class="w-1.5 h-1.5 bg-teal-500 rounded-full mr-2"></span>ROI calculations</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Section -->
+<section id="pricing" class="py-24 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl lg:text-5xl font-bold text-gray-900 mb-4">
+        Transparent, Value-Based Pricing
+      </h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Choose the plan that fits your business needs. All plans include our core AI extraction features.
+      </p>
+    </div>
+    
+    <div class="grid lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      <!-- Starter Plan -->
+      <div class="bg-white rounded-2xl border border-gray-200 p-8 hover:shadow-xl transition-shadow">
+        <div class="text-center mb-8">
+          <h3 class="text-2xl font-bold text-gray-900 mb-2">Starter</h3>
+          <p class="text-gray-600 mb-4">Perfect for small businesses</p>
+          <div class="text-4xl font-bold text-gray-900 mb-1">$99</div>
+          <div class="text-gray-600">per month</div>
+        </div>
+        
+        <ul class="space-y-4 mb-8">
+          <li class="flex items-center">
+            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>1,000 documents/month</span>
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>3 team members</span>
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Basic templates</span>
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>API access</span>
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Email support</span>
+          </li>
+        </ul>
+        
+        <%= link_to "Start Free Trial", new_user_registration_path, 
+            class: "block w-full text-center bg-gray-900 text-white py-3 rounded-xl font-medium hover:bg-gray-800 transition-colors" %>
+      </div>
+
+      <!-- Professional Plan -->
+      <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white relative hover:shadow-xl transition-shadow">
+        <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+          <span class="bg-yellow-400 text-gray-900 px-4 py-1 rounded-full text-sm font-medium">Most Popular</span>
+        </div>
+        
+        <div class="text-center mb-8">
+          <h3 class="text-2xl font-bold mb-2">Professional</h3>
+          <p class="text-blue-100 mb-4">For growing businesses</p>
+          <div class="text-4xl font-bold mb-1">$499</div>
+          <div class="text-blue-100">per month</div>
+        </div>
+        
+        <ul class="space-y-4 mb-8">
+          <li class="flex items-center">
+            <svg class="w-5 h-5 text-green-300 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>10,000 documents/month</span>
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 text-green-300 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>10 team members</span>
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 text-green-300 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Custom templates</span>
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 text-green-300 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Advanced integrations</span>
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 text-green-300 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Priority support</span>
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 text-green-300 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Webhooks</span>
+          </li>
+        </ul>
+        
+        <%= link_to "Start Free Trial", new_user_registration_path, 
+            class: "block w-full text-center bg-white text-blue-600 py-3 rounded-xl font-medium hover:bg-gray-50 transition-colors" %>
+      </div>
+
+      <!-- Enterprise Plan -->
+      <div class="bg-white rounded-2xl border border-gray-200 p-8 hover:shadow-xl transition-shadow">
+        <div class="text-center mb-8">
+          <h3 class="text-2xl font-bold text-gray-900 mb-2">Enterprise</h3>
+          <p class="text-gray-600 mb-4">For large organizations</p>
+          <div class="text-4xl font-bold text-gray-900 mb-1">$1,999+</div>
+          <div class="text-gray-600">per month</div>
+        </div>
+        
+        <ul class="space-y-4 mb-8">
+          <li class="flex items-center">
+            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>50,000+ documents/month</span>
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Unlimited users</span>
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Custom AI training</span>
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Dedicated support</span>
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>SLA guarantee</span>
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>On-premise option</span>
+          </li>
+        </ul>
+        
+        <a href="/contact" class="block w-full text-center bg-gray-900 text-white py-3 rounded-xl font-medium hover:bg-gray-800 transition-colors">
+          Contact Sales
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-24 bg-gradient-to-r from-blue-600 to-purple-600">
+  <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl lg:text-5xl font-bold text-white mb-6">
+      Ready to Transform Your Document Processing?
+    </h2>
+    <p class="text-xl text-blue-100 mb-8">
+      Join thousands of businesses already saving time and money with AI-powered document extraction.
+    </p>
+    
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+      <%= link_to new_user_registration_path, 
+          class: "inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-xl bg-white text-blue-600 hover:bg-gray-50 transition-all transform hover:scale-105 shadow-xl" do %>
+        Start Free Trial Today
+        <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+        </svg>
+      <% end %>
+      <a href="#demo" class="inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all">
+        Schedule a Demo
+      </a>
+    </div>
+    
+    <div class="flex items-center justify-center space-x-8 text-white/80">
+      <div class="flex items-center space-x-2">
+        <svg class="w-5 h-5 text-green-300" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+        </svg>
+        <span>14-day free trial</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <svg class="w-5 h-5 text-green-300" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+        </svg>
+        <span>No credit card required</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <svg class="w-5 h-5 text-green-300" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+        </svg>
+        <span>Setup in under 1 hour</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Smooth scrolling for navigation links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+
+  // Add scroll effect to navigation
+  window.addEventListener('scroll', function() {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 100) {
+      nav.classList.add('bg-white/95');
+    } else {
+      nav.classList.remove('bg-white/95');
+    }
+  });
+</script>

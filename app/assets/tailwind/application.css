@@ -1,1 +1,88 @@
 @import "tailwindcss";
+
+html, body {
+  height: 100%;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Back to top button enhancement */
+#back-to-top {
+  backdrop-filter: blur(8px);
+}
+
+/* Newsletter form styling */
+.newsletter-success {
+  background-color: #10b981;
+  color: white;
+}
+
+/* Custom scrollbar for newsletter */
+.newsletter-input:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+
+@theme {
+  --font-family-sans: "Inter", system-ui, sans-serif;
+  
+  --color-brand-50: #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+  --color-brand-900: #1e3a8a;
+  
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom utility classes using Tailwind v4 @utility directive */
+@utility gradient-bg {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+@utility hero-pattern {
+  background-image: 
+    radial-gradient(circle at 25px 25px, rgba(255,255,255,0.1) 2px, transparent 0),
+    radial-gradient(circle at 75px 75px, rgba(255,255,255,0.1) 2px, transparent 0);
+  background-size: 100px 100px;
+}
+
+@utility fade-in {
+  animation: fadeInUp 0.8s ease-out forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+@utility fade-in-delay-1 { animation-delay: 0.2s; }
+@utility fade-in-delay-2 { animation-delay: 0.4s; }
+@utility fade-in-delay-3 { animation-delay: 0.6s; }
+
+@utility floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+@utility pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

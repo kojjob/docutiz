@@ -1,0 +1,187 @@
+<div class="px-4 py-8 sm:px-6 lg:px-8" data-controller="bulk-operations">
+  <!-- Header -->
+  <div class="mb-8 flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Documents</h1>
+      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Manage and view all your uploaded documents</p>
+    </div>
+    <div class="flex items-center space-x-3">
+      <%= link_to bulk_upload_documents_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-coffee-700 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors" do %>
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+        </svg>
+        Bulk Upload
+      <% end %>
+      <%= link_to new_document_path, class: "inline-flex items-center px-4 py-2 bg-teal-600 dark:bg-teal-500 text-white text-sm font-medium rounded-lg hover:bg-teal-700 dark:hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors" do %>
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        Upload Document
+      <% end %>
+    </div>
+  </div>
+
+  <% if @documents.any? %>
+    <!-- Bulk Actions Bar -->
+    <div class="mb-6 bg-white dark:bg-coffee-800 rounded-lg shadow-sm border border-gray-200 dark:border-coffee-700 p-4" 
+         data-bulk-operations-target="actionBar" 
+         style="display: none;">
+      <%= form_with url: bulk_actions_documents_path, method: :post, data: { "bulk-operations-target": "form" } do |f| %>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <label class="flex items-center">
+              <input type="checkbox" 
+                     data-action="change->bulk-operations#toggleAll"
+                     data-bulk-operations-target="selectAll"
+                     class="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded">
+              <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                Select All (<span data-bulk-operations-target="selectedCount">0</span> selected)
+              </span>
+            </label>
+          </div>
+          
+          <div class="flex items-center space-x-3">
+            <%= select_tag :bulk_action, 
+                options_for_select([
+                  ["Choose action...", ""],
+                  ["Approve", "approve"],
+                  ["Send for Review", "reject"],
+                  ["Reprocess", "reprocess"],
+                  ["Delete", "delete"]
+                ]),
+                class: "block rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm",
+                data: { "bulk-operations-target": "actionSelect" } %>
+            
+            <button type="submit" 
+                    data-action="click->bulk-operations#performAction"
+                    disabled
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-50 disabled:cursor-not-allowed">
+              Apply
+            </button>
+            
+            <div class="border-l border-gray-300 dark:border-coffee-700 pl-3">
+              <%= link_to export_documents_path(format: :csv), class: "inline-flex items-center px-3 py-2 border border-gray-300 dark:border-coffee-700 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700" do %>
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Export CSV
+              <% end %>
+            </div>
+          </div>
+        </div>
+        
+        <div data-bulk-operations-target="documentIds"></div>
+      <% end %>
+    </div>
+
+    <!-- Documents Table View -->
+    <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-coffee-700">
+        <thead class="bg-gray-50 dark:bg-coffee-900">
+          <tr>
+            <th scope="col" class="w-12 px-6 py-3">
+              <span class="sr-only">Select</span>
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Document
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Status
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Template
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Created
+            </th>
+            <th scope="col" class="relative px-6 py-3">
+              <span class="sr-only">Actions</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white dark:bg-coffee-800 divide-y divide-gray-200 dark:divide-coffee-700">
+          <% @documents.each do |document| %>
+            <tr>
+              <td class="px-6 py-4">
+                <input type="checkbox" 
+                       name="document_ids[]" 
+                       value="<%= document.id %>"
+                       data-action="change->bulk-operations#updateSelection"
+                       data-bulk-operations-target="documentCheckbox"
+                       class="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded">
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                    <div class="w-10 h-10 bg-gray-100 dark:bg-coffee-700 rounded-lg flex items-center justify-center">
+                      <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="ml-4">
+                    <%= link_to document, class: "text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-teal-600 dark:hover:text-teal-400" do %>
+                      <%= document.name %>
+                    <% end %>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                      <%= document.file_size ? number_to_human_size(document.file_size) : "Unknown size" %>
+                    </p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <%= render 'status_badge', document: document %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                <%= document.extraction_template&.name || "-" %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                <%= document.created_at.strftime("%b %d, %Y") %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <div class="flex items-center justify-end space-x-2">
+                  <%= link_to "View", document, class: "text-teal-600 hover:text-teal-900 dark:text-teal-400" %>
+                  <% if current_user.can_manage_users? %>
+                    <%= link_to "Edit", edit_document_path(document), class: "text-gray-600 hover:text-gray-900 dark:text-gray-400" %>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <% if @pagy && @pagy.pages > 1 %>
+      <div class="mt-8 flex justify-center">
+        <%== pagy_bootstrap_nav(@pagy) %>
+      </div>
+    <% end %>
+  <% else %>
+    <!-- Empty State -->
+    <div class="bg-white dark:bg-dark-surface rounded-xl shadow-sm border border-gray-100 dark:border-dark-border p-12">
+      <div class="text-center">
+        <svg class="mx-auto h-12 w-12 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+        </svg>
+        <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">No documents yet</h3>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Get started by uploading your first document</p>
+        <div class="mt-6 flex items-center justify-center space-x-3">
+          <%= link_to bulk_upload_documents_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-coffee-700 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700" do %>
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+            Bulk Upload
+          <% end %>
+          <%= link_to new_document_path, class: "inline-flex items-center px-4 py-2 bg-teal-600 dark:bg-teal-500 text-white text-sm font-medium rounded-lg hover:bg-teal-700 dark:hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors" do %>
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+            Upload Document
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

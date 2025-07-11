@@ -1,0 +1,189 @@
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Settings</h1>
+      <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+        Manage your account settings and preferences
+      </p>
+    </div>
+
+    <!-- Settings Navigation -->
+    <div class="mb-8">
+      <nav class="flex space-x-8 border-b border-gray-200 dark:border-coffee-700">
+        <%= link_to profile_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(profile_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Profile
+        <% end %>
+        
+        <%= link_to notifications_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(notifications_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Notifications
+        <% end %>
+        
+        <%= link_to collaboration_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(collaboration_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Collaboration
+        <% end %>
+        
+        <%= link_to api_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(api_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          API
+        <% end %>
+        
+        <%= link_to integrations_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(integrations_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Integrations
+        <% end %>
+        
+        <% if current_user.owner? %>
+          <%= link_to tenant_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(tenant_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+            Organization
+          <% end %>
+          
+          <%= link_to billing_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(billing_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+            Billing
+          <% end %>
+          
+          <%= link_to security_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(security_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+            Security
+          <% end %>
+        <% end %>
+      </nav>
+    </div>
+
+    <!-- Integrations -->
+    <%= form_with url: integrations_settings_path, method: :patch, local: true, class: "space-y-6" do |f| %>
+      <!-- Slack Integration -->
+      <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700 flex items-center justify-between">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/>
+                </svg>
+              </div>
+            </div>
+            <div class="ml-4">
+              <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Slack</h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Get notifications in your Slack workspace</p>
+            </div>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <%= check_box_tag "slack[enabled]", 
+                true, 
+                @integrations[:slack][:enabled],
+                class: "sr-only peer" %>
+            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-teal-600"></div>
+          </label>
+        </div>
+        <div class="px-6 py-6 space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Webhook URL</label>
+            <%= text_field_tag "slack[webhook_url]", 
+                @integrations[:slack][:webhook_url],
+                placeholder: "https://hooks.slack.com/services/...",
+                class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm" %>
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              <a href="https://api.slack.com/messaging/webhooks" target="_blank" class="text-teal-600 hover:text-teal-500 dark:text-teal-400">
+                Learn how to create a Slack webhook →
+              </a>
+            </p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Channel</label>
+            <%= text_field_tag "slack[channel]", 
+                @integrations[:slack][:channel],
+                placeholder: "#general",
+                class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm" %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zapier Integration -->
+      <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700 flex items-center justify-between">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <div class="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-orange-600 dark:text-orange-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.895 8.442l-1.782 5.516a1.5 1.5 0 01-1.831.92l-5.516-1.781a1.5 1.5 0 01-.92-1.832l1.782-5.516a1.5 1.5 0 011.831-.92l5.516 1.782a1.5 1.5 0 01.92 1.831z"/>
+                </svg>
+              </div>
+            </div>
+            <div class="ml-4">
+              <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Zapier</h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Connect Docutiz with 5,000+ apps</p>
+            </div>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <%= check_box_tag "zapier[enabled]", 
+                true, 
+                @integrations[:zapier][:enabled],
+                class: "sr-only peer" %>
+            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-teal-600"></div>
+          </label>
+        </div>
+        <div class="px-6 py-6">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">API Key</label>
+            <%= text_field_tag "zapier[api_key]", 
+                @integrations[:zapier][:api_key],
+                placeholder: "Enter your Zapier API key",
+                class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm font-mono" %>
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              <a href="https://zapier.com/apps/docutiz/integrations" target="_blank" class="text-teal-600 hover:text-teal-500 dark:text-teal-400">
+                View available Zapier integrations →
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Webhook Integration -->
+      <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700 flex items-center justify-between">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+              </div>
+            </div>
+            <div class="ml-4">
+              <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Webhooks</h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Send events to your custom endpoints</p>
+            </div>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <%= check_box_tag "webhook[enabled]", 
+                true, 
+                @integrations[:webhook][:enabled],
+                class: "sr-only peer" %>
+            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-teal-600"></div>
+          </label>
+        </div>
+        <div class="px-6 py-6 space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Endpoint URL</label>
+            <%= text_field_tag "webhook[url]", 
+                @integrations[:webhook][:url],
+                placeholder: "https://your-app.com/webhooks/docutiz",
+                class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm" %>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Secret Key</label>
+            <%= text_field_tag "webhook[secret]", 
+                @integrations[:webhook][:secret],
+                placeholder: "Optional: Used to verify webhook signatures",
+                class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm font-mono" %>
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              Events: document.created, document.processed, extraction.completed, extraction.failed
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end">
+        <%= f.submit "Save Integrations", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 cursor-pointer" %>
+      </div>
+    <% end %>
+  </div>
+</div>

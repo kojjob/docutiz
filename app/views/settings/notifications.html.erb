@@ -1,0 +1,170 @@
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Settings</h1>
+      <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+        Manage your account settings and preferences
+      </p>
+    </div>
+
+    <!-- Settings Navigation -->
+    <div class="mb-8">
+      <nav class="flex space-x-8 border-b border-gray-200 dark:border-coffee-700">
+        <%= link_to profile_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(profile_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Profile
+        <% end %>
+        
+        <%= link_to notifications_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(notifications_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Notifications
+        <% end %>
+        
+        <%= link_to collaboration_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(collaboration_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Collaboration
+        <% end %>
+        
+        <%= link_to api_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(api_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          API
+        <% end %>
+        
+        <%= link_to integrations_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(integrations_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+          Integrations
+        <% end %>
+        
+        <% if current_user.owner? %>
+          <%= link_to tenant_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(tenant_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+            Organization
+          <% end %>
+          
+          <%= link_to billing_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(billing_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+            Billing
+          <% end %>
+          
+          <%= link_to security_settings_path, class: "py-2 px-1 border-b-2 font-medium text-sm #{current_page?(security_settings_path) ? 'border-teal-500 text-teal-600 dark:text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}" do %>
+            Security
+          <% end %>
+        <% end %>
+      </nav>
+    </div>
+
+    <!-- Notification Settings Form -->
+    <%= form_with url: notifications_settings_path, method: :patch, local: true, class: "space-y-6" do |f| %>
+      <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+          <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Email Notifications</h3>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Choose which notifications you'd like to receive via email
+          </p>
+        </div>
+        <div class="px-6 py-6 space-y-6">
+          <div class="space-y-4">
+            <label class="flex items-start">
+              <%= check_box_tag "notifications[email_on_extraction_complete]", 
+                  true, 
+                  @notification_settings["email_on_extraction_complete"],
+                  class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mt-1 mr-3" %>
+              <div>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Extraction Complete</span>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Get notified when document extraction is successfully completed
+                </p>
+              </div>
+            </label>
+
+            <label class="flex items-start">
+              <%= check_box_tag "notifications[email_on_extraction_failed]", 
+                  true, 
+                  @notification_settings["email_on_extraction_failed"],
+                  class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mt-1 mr-3" %>
+              <div>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Extraction Failed</span>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Get notified when document extraction fails
+                </p>
+              </div>
+            </label>
+
+            <label class="flex items-start">
+              <%= check_box_tag "notifications[email_on_review_required]", 
+                  true, 
+                  @notification_settings["email_on_review_required"],
+                  class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mt-1 mr-3" %>
+              <div>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Review Required</span>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Get notified when a document needs your review
+                </p>
+              </div>
+            </label>
+
+            <label class="flex items-start">
+              <%= check_box_tag "notifications[email_on_comment]", 
+                  true, 
+                  @notification_settings["email_on_comment"],
+                  class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mt-1 mr-3" %>
+              <div>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Comments</span>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Get notified when someone comments on your documents
+                </p>
+              </div>
+            </label>
+
+            <label class="flex items-start">
+              <%= check_box_tag "notifications[email_on_mention]", 
+                  true, 
+                  @notification_settings["email_on_mention"],
+                  class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mt-1 mr-3" %>
+              <div>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Mentions</span>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Get notified when someone mentions you in a comment
+                </p>
+              </div>
+            </label>
+
+            <label class="flex items-start">
+              <%= check_box_tag "notifications[email_weekly_summary]", 
+                  true, 
+                  @notification_settings["email_weekly_summary"],
+                  class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mt-1 mr-3" %>
+              <div>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Weekly Summary</span>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Receive a weekly summary of your team's activity
+                </p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+          <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Browser Notifications</h3>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Real-time notifications in your browser
+          </p>
+        </div>
+        <div class="px-6 py-6">
+          <label class="flex items-start">
+            <%= check_box_tag "notifications[browser_notifications]", 
+                true, 
+                @notification_settings["browser_notifications"],
+                class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mt-1 mr-3" %>
+            <div>
+              <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Enable Browser Notifications</span>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                Show desktop notifications for important events
+              </p>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end">
+        <%= f.submit "Save Preferences", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 cursor-pointer" %>
+      </div>
+    <% end %>
+  </div>
+</div>

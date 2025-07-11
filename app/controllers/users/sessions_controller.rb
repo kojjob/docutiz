@@ -1,4 +1,9 @@
 class Users::SessionsController < Devise::SessionsController
+  # Rate limiting for login attempts
+  rate_limit to: 5, within: 1.minute, only: :create,
+             by: -> { request.remote_ip },
+             with: -> { render json: { error: 'Too many login attempts. Please try again later.' }, status: :too_many_requests }
+  
   skip_before_action :authenticate_user!, only: [ :new, :create ]
   before_action :ensure_subdomain_for_login, only: [ :new ]
 

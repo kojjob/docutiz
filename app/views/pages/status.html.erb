@@ -1,0 +1,170 @@
+<div class="min-h-screen bg-gray-50 dark:bg-dark-bg">
+  <!-- Simple Navigation Header -->
+  <nav class="bg-white dark:bg-dark-surface border-b border-gray-200 dark:border-dark-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-8">
+          <!-- Logo -->
+          <a href="/" class="flex items-center space-x-2">
+            <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded flex items-center justify-center">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+            </div>
+            <span class="font-semibold text-xl text-gray-900 dark:text-gray-100">Docutiz</span>
+          </a>
+          
+          <!-- Navigation Links -->
+          <div class="hidden md:flex items-center space-x-6">
+            <a href="/status" class="text-teal-600 dark:text-teal-400 font-medium">System Status</a>
+            <a href="/help" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">Help Center</a>
+            <a href="/api-docs" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">API Docs</a>
+          </div>
+        </div>
+        
+        <!-- Right side -->
+        <div class="flex items-center space-x-4">
+          <% if user_signed_in? %>
+            <a href="/dashboard" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">Dashboard</a>
+          <% else %>
+            <%= link_to "Sign In", new_user_session_path, class: "text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100" %>
+            <%= link_to "Get Started", new_user_registration_path, class: "px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header -->
+    <div class="mb-12">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100">System Status</h1>
+          <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+            Current operational status of all Docutiz services
+          </p>
+        </div>
+        <div class="flex items-center space-x-2 bg-green-100 dark:bg-green-900/20 px-4 py-2 rounded-lg">
+          <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+          <span class="text-green-800 dark:text-green-300 font-medium">All Systems Operational</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Current Status -->
+    <div class="bg-white dark:bg-dark-surface shadow rounded-lg mb-8">
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-dark-border">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Service Status</h2>
+      </div>
+      <div class="p-6">
+        <div class="space-y-4">
+          <!-- API -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span class="font-medium text-gray-900 dark:text-gray-100">API</span>
+            </div>
+            <span class="text-green-600 dark:text-green-400 text-sm">Operational</span>
+          </div>
+          
+          <!-- Document Processing -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span class="font-medium text-gray-900 dark:text-gray-100">Document Processing</span>
+            </div>
+            <span class="text-green-600 dark:text-green-400 text-sm">Operational</span>
+          </div>
+          
+          <!-- Web Application -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span class="font-medium text-gray-900 dark:text-gray-100">Web Application</span>
+            </div>
+            <span class="text-green-600 dark:text-green-400 text-sm">Operational</span>
+          </div>
+          
+          <!-- Background Jobs -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span class="font-medium text-gray-900 dark:text-gray-100">Background Jobs</span>
+            </div>
+            <span class="text-green-600 dark:text-green-400 text-sm">Operational</span>
+          </div>
+          
+          <!-- Database -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span class="font-medium text-gray-900 dark:text-gray-100">Database</span>
+            </div>
+            <span class="text-green-600 dark:text-green-400 text-sm">Operational</span>
+          </div>
+          
+          <!-- File Storage -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span class="font-medium text-gray-900 dark:text-gray-100">File Storage (S3)</span>
+            </div>
+            <span class="text-green-600 dark:text-green-400 text-sm">Operational</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Metrics -->
+    <div class="grid gap-6 md:grid-cols-3 mb-8">
+      <div class="bg-white dark:bg-dark-surface shadow rounded-lg p-6">
+        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">API Response Time</h3>
+        <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-gray-100">42ms</p>
+        <p class="mt-1 text-sm text-green-600 dark:text-green-400">↓ 8% from last week</p>
+      </div>
+      
+      <div class="bg-white dark:bg-dark-surface shadow rounded-lg p-6">
+        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Uptime (30 days)</h3>
+        <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-gray-100">99.98%</p>
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">SLA Target: 99.9%</p>
+      </div>
+      
+      <div class="bg-white dark:bg-dark-surface shadow rounded-lg p-6">
+        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Processing Queue</h3>
+        <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-gray-100">12</p>
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">documents in queue</p>
+      </div>
+    </div>
+
+    <!-- Recent Incidents -->
+    <div class="bg-white dark:bg-dark-surface shadow rounded-lg">
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-dark-border">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Recent Incidents</h2>
+      </div>
+      <div class="p-6">
+        <div class="text-center py-8">
+          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <p class="mt-2 text-gray-600 dark:text-gray-400">No incidents reported in the last 30 days</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subscribe to Updates -->
+    <div class="bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 rounded-lg p-6 mt-8">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-lg font-medium text-teal-900 dark:text-teal-100">Subscribe to Status Updates</h3>
+          <p class="text-teal-700 dark:text-teal-300">
+            Get notified about scheduled maintenance and incidents
+          </p>
+        </div>
+        <a href="#" class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 font-medium">
+          Subscribe
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

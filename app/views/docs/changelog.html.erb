@@ -1,0 +1,149 @@
+<div class="min-h-screen bg-gray-50 dark:bg-dark-bg">
+  <!-- Simple Navigation Header -->
+  <nav class="bg-white dark:bg-dark-surface border-b border-gray-200 dark:border-dark-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-8">
+          <!-- Logo -->
+          <a href="/" class="flex items-center space-x-2">
+            <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded flex items-center justify-center">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+            </div>
+            <span class="font-semibold text-xl text-gray-900 dark:text-gray-100">Docutiz</span>
+          </a>
+          
+          <!-- Navigation Links -->
+          <div class="hidden md:flex items-center space-x-6">
+            <a href="/api-docs" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">API Docs</a>
+            <a href="/changelog" class="text-teal-600 dark:text-teal-400 font-medium">Changelog</a>
+            <a href="/roadmap" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">Roadmap</a>
+          </div>
+        </div>
+        
+        <!-- Right side -->
+        <div class="flex items-center space-x-4">
+          <% if user_signed_in? %>
+            <a href="/dashboard" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">Dashboard</a>
+          <% else %>
+            <%= link_to "Sign In", new_user_session_path, class: "text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100" %>
+            <%= link_to "Get Started", new_user_registration_path, class: "px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header -->
+    <div class="mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100">Changelog</h1>
+      <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+        Stay up to date with the latest improvements and features in Docutiz
+      </p>
+    </div>
+
+    <!-- Version 2.1.0 -->
+    <div class="bg-white dark:bg-dark-surface shadow rounded-lg mb-8">
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-dark-border">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Version 2.1.0</h2>
+          <span class="text-sm text-gray-500 dark:text-gray-400">January 15, 2025</span>
+        </div>
+      </div>
+      <div class="p-6">
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-medium text-gray-900 dark:text-gray-100 mb-2">✨ New Features</h3>
+            <ul class="list-disc list-inside space-y-1 text-gray-600 dark:text-gray-400">
+              <li>Added comprehensive API documentation</li>
+              <li>Introduced batch document processing endpoint</li>
+              <li>New webhook notifications for extraction events</li>
+              <li>Enhanced extraction templates with custom field validation</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-medium text-gray-900 dark:text-gray-100 mb-2">🐛 Bug Fixes</h3>
+            <ul class="list-disc list-inside space-y-1 text-gray-600 dark:text-gray-400">
+              <li>Fixed PDF rendering issues for large documents</li>
+              <li>Resolved memory leaks in document processing queue</li>
+              <li>Corrected confidence score calculations for multi-page documents</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-medium text-gray-900 dark:text-gray-100 mb-2">🔧 Improvements</h3>
+            <ul class="list-disc list-inside space-y-1 text-gray-600 dark:text-gray-400">
+              <li>Improved extraction speed by 40% for invoice documents</li>
+              <li>Enhanced dark mode with coffee-themed color palette</li>
+              <li>Better error messages for API responses</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Version 2.0.0 -->
+    <div class="bg-white dark:bg-dark-surface shadow rounded-lg mb-8">
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-dark-border">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Version 2.0.0</h2>
+          <span class="text-sm text-gray-500 dark:text-gray-400">December 1, 2024</span>
+        </div>
+      </div>
+      <div class="p-6">
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-medium text-gray-900 dark:text-gray-100 mb-2">🚀 Major Release</h3>
+            <ul class="list-disc list-inside space-y-1 text-gray-600 dark:text-gray-400">
+              <li>Complete UI redesign with Tailwind CSS</li>
+              <li>Multi-tenant architecture with horizontal sharding</li>
+              <li>Upgraded to Rails 8.0 with Solid Queue and Solid Cable</li>
+              <li>Introduced Claude Vision support alongside GPT-4 Vision</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-medium text-gray-900 dark:text-gray-100 mb-2">💔 Breaking Changes</h3>
+            <ul class="list-disc list-inside space-y-1 text-gray-600 dark:text-gray-400">
+              <li>API v1 endpoints have changed - see migration guide</li>
+              <li>Deprecated legacy extraction format</li>
+              <li>New authentication token format</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Version 1.5.0 -->
+    <div class="bg-white dark:bg-dark-surface shadow rounded-lg mb-8">
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-dark-border">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Version 1.5.0</h2>
+          <span class="text-sm text-gray-500 dark:text-gray-400">October 15, 2024</span>
+        </div>
+      </div>
+      <div class="p-6">
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-medium text-gray-900 dark:text-gray-100 mb-2">✨ New Features</h3>
+            <ul class="list-disc list-inside space-y-1 text-gray-600 dark:text-gray-400">
+              <li>Bank statement extraction templates</li>
+              <li>Export extraction results to CSV and JSON</li>
+              <li>Team collaboration features with role-based access</li>
+              <li>API rate limiting and usage analytics</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subscribe to updates -->
+    <div class="bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 rounded-lg p-6 mt-8">
+      <h3 class="text-lg font-medium text-teal-900 dark:text-teal-100 mb-2">Stay Updated</h3>
+      <p class="text-teal-700 dark:text-teal-300">
+        Subscribe to our newsletter to get notified about new features and updates.
+        <a href="#" class="underline ml-1">Subscribe here</a>
+      </p>
+    </div>
+  </div>
+</div>

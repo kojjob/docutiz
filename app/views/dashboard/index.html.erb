@@ -1,159 +1,179 @@
-<div class="min-h-screen bg-gray-50">
-  <!-- Navigation -->
-  <nav class="bg-white shadow">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
-        <div class="flex">
-          <div class="flex-shrink-0 flex items-center">
-            <h1 class="text-xl font-bold text-gray-900">Docutiz</h1>
-          </div>
-          <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-            <%= link_to "Dashboard", dashboard_path, class: "border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %>
-            <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-              Documents
-            </a>
-            <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-              Templates
-            </a>
-            <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-              Team
-            </a>
-          </div>
+<div class="px-4 py-8 sm:px-6 lg:px-8">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Welcome back, <%= current_user.name.split.first %></h1>
+    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Here's what's happening with your documents today.</p>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5 mb-8">
+    <!-- Total Documents -->
+    <div class="bg-white dark:bg-dark-surface rounded-xl shadow-sm p-6 border border-gray-100 dark:border-dark-border">
+      <div class="flex items-center">
+        <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+          <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
         </div>
-        <div class="hidden sm:ml-6 sm:flex sm:items-center">
-          <div class="ml-3 relative">
-            <div class="flex items-center">
-              <span class="text-sm text-gray-700 mr-4"><%= @user.full_name %></span>
-              <%= button_to "Sign out", destroy_user_session_path, method: :delete,
-                  data: { turbo: false },
-                  class: "bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-            </div>
-          </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Documents</p>
+          <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100"><%= @stats[:documents_count] %></p>
         </div>
       </div>
     </div>
-  </nav>
 
-  <!-- Main Content -->
-  <main>
-    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-      <!-- Page header -->
-      <div class="px-4 py-6 sm:px-0">
-        <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
-        <p class="mt-1 text-sm text-gray-600">
-          Welcome back, <%= @user.full_name %>! Here's an overview of your document processing.
-        </p>
-      </div>
-
-      <!-- Stats -->
-      <div class="mt-8">
-        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          <!-- Documents Count -->
-          <div class="bg-white overflow-hidden shadow rounded-lg">
-            <div class="px-4 py-5 sm:p-6">
-              <dt class="text-sm font-medium text-gray-500 truncate">
-                Total Documents
-              </dt>
-              <dd class="mt-1 text-3xl font-semibold text-gray-900">
-                <%= @stats[:documents_count] %>
-              </dd>
-            </div>
-          </div>
-
-          <!-- Templates Count -->
-          <div class="bg-white overflow-hidden shadow rounded-lg">
-            <div class="px-4 py-5 sm:p-6">
-              <dt class="text-sm font-medium text-gray-500 truncate">
-                Templates
-              </dt>
-              <dd class="mt-1 text-3xl font-semibold text-gray-900">
-                <%= @stats[:templates_count] %>
-              </dd>
-            </div>
-          </div>
-
-          <!-- Users Count -->
-          <div class="bg-white overflow-hidden shadow rounded-lg">
-            <div class="px-4 py-5 sm:p-6">
-              <dt class="text-sm font-medium text-gray-500 truncate">
-                Team Members
-              </dt>
-              <dd class="mt-1 text-3xl font-semibold text-gray-900">
-                <%= @stats[:users_count] %>
-              </dd>
-            </div>
-          </div>
-
-          <!-- Documents This Month -->
-          <div class="bg-white overflow-hidden shadow rounded-lg">
-            <div class="px-4 py-5 sm:p-6">
-              <dt class="text-sm font-medium text-gray-500 truncate">
-                Documents This Month
-              </dt>
-              <dd class="mt-1 text-3xl font-semibold text-gray-900">
-                <%= @stats[:documents_this_month] %>
-              </dd>
-            </div>
-          </div>
+    <!-- Documents This Month -->
+    <div class="bg-white dark:bg-dark-surface rounded-xl shadow-sm p-6 border border-gray-100 dark:border-dark-border">
+      <div class="flex items-center">
+        <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+          <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">This Month</p>
+          <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100"><%= @stats[:documents_this_month] %></p>
         </div>
       </div>
+    </div>
 
-      <!-- Quick Actions -->
-      <div class="mt-8">
-        <h2 class="text-lg font-medium text-gray-900">Quick Actions</h2>
-        <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <button class="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <!-- Templates -->
+    <div class="bg-white dark:bg-dark-surface rounded-xl shadow-sm p-6 border border-gray-100 dark:border-dark-border">
+      <div class="flex items-center">
+        <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+          <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+          </svg>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Templates</p>
+          <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100"><%= @stats[:templates_count] %></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active APIs -->
+    <div class="bg-white dark:bg-dark-surface rounded-xl shadow-sm p-6 border border-gray-100 dark:border-dark-border">
+      <div class="flex items-center">
+        <div class="p-3 bg-teal-50 dark:bg-teal-900/20 rounded-lg">
+          <svg class="w-6 h-6 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+          </svg>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Active APIs</p>
+          <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100"><%= @stats[:active_apis] || 0 %></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Team Members -->
+    <div class="bg-white dark:bg-dark-surface rounded-xl shadow-sm p-6 border border-gray-100 dark:border-dark-border">
+      <div class="flex items-center">
+        <div class="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
+          <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Team Members</p>
+          <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100"><%= @stats[:users_count] %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Quick Actions</h2>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <%= link_to new_document_path, class: "group bg-white dark:bg-dark-surface rounded-xl p-6 shadow-sm border border-gray-100 dark:border-dark-border hover:shadow-md hover:border-teal-200 dark:hover:border-teal-600 transition-all" do %>
+        <div class="flex items-center">
+          <div class="p-3 bg-teal-50 dark:bg-teal-900/20 rounded-lg group-hover:bg-teal-100 dark:group-hover:bg-teal-800/30 transition-colors">
+            <svg class="w-6 h-6 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
             </svg>
-            <span class="mt-2 block text-sm font-medium text-gray-900">
-              Upload New Document
-            </span>
-          </button>
-
-          <button class="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            <span class="mt-2 block text-sm font-medium text-gray-900">
-              Create New Template
-            </span>
-          </button>
-
-          <button class="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-            <span class="mt-2 block text-sm font-medium text-gray-900">
-              Invite Team Member
-            </span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Trial Status (if applicable) -->
-      <% if @tenant.trial? %>
-        <div class="mt-8 bg-yellow-50 border border-yellow-200 rounded-md p-4">
-          <div class="flex">
-            <div class="flex-shrink-0">
-              <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-              </svg>
-            </div>
-            <div class="ml-3">
-              <h3 class="text-sm font-medium text-yellow-800">
-                Trial Period
-              </h3>
-              <div class="mt-2 text-sm text-yellow-700">
-                <p>
-                  You have <%= @tenant.trial_days_remaining %> days remaining in your trial. 
-                  <%= link_to "Upgrade now", "#", class: "font-medium underline text-yellow-700 hover:text-yellow-600" %> to continue using all features.
-                </p>
-              </div>
-            </div>
+          </div>
+          <div class="ml-4">
+            <h3 class="font-medium text-gray-900 dark:text-gray-100">Upload Document</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Extract data from a new document</p>
           </div>
         </div>
       <% end %>
+
+      <a href="#" class="group bg-white dark:bg-dark-surface rounded-xl p-6 shadow-sm border border-gray-100 dark:border-dark-border hover:shadow-md hover:border-purple-200 dark:hover:border-purple-600 transition-all">
+        <div class="flex items-center">
+          <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg group-hover:bg-purple-100 dark:group-hover:bg-purple-800/30 transition-colors">
+            <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+          </div>
+          <div class="ml-4">
+            <h3 class="font-medium text-gray-900 dark:text-gray-100">Create Template</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Define extraction rules</p>
+          </div>
+        </div>
+      </a>
+
+      <%= link_to claude_code_api_builder_path, class: "group bg-white dark:bg-dark-surface rounded-xl p-6 shadow-sm border border-gray-100 dark:border-dark-border hover:shadow-md hover:border-blue-200 dark:hover:border-blue-600 transition-all" do %>
+        <div class="flex items-center">
+          <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg group-hover:bg-blue-100 dark:group-hover:bg-blue-800/30 transition-colors">
+            <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+          </div>
+          <div class="ml-4">
+            <h3 class="font-medium text-gray-900 dark:text-gray-100">API Builder</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Generate custom API endpoints</p>
+          </div>
+        </div>
+      <% end %>
+
+      <a href="#" class="group bg-white dark:bg-dark-surface rounded-xl p-6 shadow-sm border border-gray-100 dark:border-dark-border hover:shadow-md hover:border-amber-200 dark:hover:border-amber-600 transition-all">
+        <div class="flex items-center">
+          <div class="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg group-hover:bg-amber-100 dark:group-hover:bg-amber-800/30 transition-colors">
+            <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+            </svg>
+          </div>
+          <div class="ml-4">
+            <h3 class="font-medium text-gray-900 dark:text-gray-100">Invite Team Member</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Add users to your workspace</p>
+          </div>
+        </div>
+      </a>
     </div>
-  </main>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="bg-white dark:bg-dark-surface rounded-xl shadow-sm border border-gray-100 dark:border-dark-border">
+    <div class="px-6 py-4 border-b border-gray-100 dark:border-dark-border">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Recent Activity</h2>
+    </div>
+    <div class="p-6">
+      <div class="text-center py-12">
+        <svg class="mx-auto h-12 w-12 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">No recent activity to show</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trial Banner -->
+  <% if @tenant.trial? %>
+    <div class="mt-8 bg-gradient-to-r from-teal-500 to-teal-600 dark:from-teal-600 dark:to-teal-700 rounded-xl p-6 text-white">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-lg font-semibold">Trial Period</h3>
+          <p class="mt-1 text-teal-100">
+            You have <%= @tenant.trial_days_remaining %> days remaining in your trial. Upgrade now to keep all your data and features.
+          </p>
+        </div>
+        <a href="#" class="bg-white text-teal-600 dark:text-teal-700 px-4 py-2 rounded-lg font-medium hover:bg-teal-50 transition-colors">
+          Upgrade Now
+        </a>
+      </div>
+    </div>
+  <% end %>
 </div>

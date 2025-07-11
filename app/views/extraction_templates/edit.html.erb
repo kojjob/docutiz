@@ -1,0 +1,342 @@
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Header -->
+  <div class="mb-8">
+    <nav class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2" aria-label="Breadcrumb">
+      <%= link_to "Templates", extraction_templates_path, class: "hover:text-gray-700 dark:hover:text-gray-200" %>
+      <svg class="mx-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+      </svg>
+      <%= link_to @extraction_template.name, @extraction_template, class: "hover:text-gray-700 dark:hover:text-gray-200" %>
+      <svg class="mx-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+      </svg>
+      <span class="text-gray-900 dark:text-gray-100">Edit</span>
+    </nav>
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Edit Extraction Template</h1>
+    <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+      Modify your template configuration and extraction settings
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Main Form -->
+    <div class="lg:col-span-2">
+      <%= form_with model: @extraction_template, local: true, class: "space-y-6" do |f| %>
+        <!-- Basic Information -->
+        <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+          <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+            <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Basic Information</h3>
+          </div>
+          <div class="px-6 py-4 space-y-4">
+            <div>
+              <%= f.label :name, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+              <%= f.text_field :name, 
+                  class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm",
+                  placeholder: "e.g., Invoice Extraction Template" %>
+              <% if @extraction_template.errors[:name].any? %>
+                <p class="mt-1 text-sm text-red-600 dark:text-red-400"><%= @extraction_template.errors[:name].first %></p>
+              <% end %>
+            </div>
+
+            <div>
+              <%= f.label :document_type, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+              <%= f.select :document_type, 
+                  options_for_select(ExtractionTemplate::DOCUMENT_TYPES.map { |type| [type.humanize, type] }, @extraction_template.document_type),
+                  { prompt: "Select document type..." },
+                  class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm" %>
+              <% if @extraction_template.errors[:document_type].any? %>
+                <p class="mt-1 text-sm text-red-600 dark:text-red-400"><%= @extraction_template.errors[:document_type].first %></p>
+              <% end %>
+            </div>
+
+            <div>
+              <%= f.label :active, class: "flex items-center" %>
+                <%= f.check_box :active, class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mr-2" %>
+                <span class="text-sm text-gray-700 dark:text-gray-300">Template is active and can be used for extractions</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prompt Template -->
+        <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+          <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+            <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">AI Prompt Template</h3>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              Define the instructions for AI extraction. Use {{field_name}} for variables.
+            </p>
+          </div>
+          <div class="px-6 py-4">
+            <%= f.text_area :prompt_template, 
+                rows: 8,
+                class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm font-mono text-sm",
+                placeholder: "Enter the prompt template for AI extraction..." %>
+            <% if @extraction_template.errors[:prompt_template].any? %>
+              <p class="mt-1 text-sm text-red-600 dark:text-red-400"><%= @extraction_template.errors[:prompt_template].first %></p>
+            <% end %>
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              Available variables: {{fields_list}} - Lists all field descriptions
+            </p>
+          </div>
+        </div>
+
+        <!-- Fields Configuration -->
+        <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+          <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Extraction Fields</h3>
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                  Define the fields to extract from documents
+                </p>
+              </div>
+              <button type="button" 
+                      onclick="addField()"
+                      class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Add Field
+              </button>
+            </div>
+          </div>
+          <div class="px-6 py-4">
+            <div id="fields-container" class="space-y-3">
+              <% @extraction_template.fields.each_with_index do |field, index| %>
+                <div class="field-row flex items-start space-x-3 p-4 bg-gray-50 dark:bg-coffee-900 rounded-lg">
+                  <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Field Name</label>
+                    <input type="text" 
+                           name="extraction_template[fields][<%= index %>][name]" 
+                           value="<%= field['name'] %>"
+                           placeholder="e.g., invoice_number"
+                           class="block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-800 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                  </div>
+                  <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Type</label>
+                    <select name="extraction_template[fields][<%= index %>][type]" 
+                            class="block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-800 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                      <option value="string" <%= 'selected' if field['type'] == 'string' %>>String</option>
+                      <option value="number" <%= 'selected' if field['type'] == 'number' %>>Number</option>
+                      <option value="date" <%= 'selected' if field['type'] == 'date' %>>Date</option>
+                      <option value="boolean" <%= 'selected' if field['type'] == 'boolean' %>>Boolean</option>
+                      <option value="array" <%= 'selected' if field['type'] == 'array' %>>Array</option>
+                    </select>
+                  </div>
+                  <div class="flex items-center pt-6">
+                    <label class="flex items-center">
+                      <input type="checkbox" 
+                             name="extraction_template[fields][<%= index %>][required]" 
+                             value="true"
+                             <%= 'checked' if field['required'] %>
+                             class="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mr-2">
+                      <span class="text-sm text-gray-700 dark:text-gray-300">Required</span>
+                    </label>
+                  </div>
+                  <div class="pt-6">
+                    <button type="button" 
+                            onclick="removeField(this)"
+                            class="inline-flex items-center p-2 border border-transparent text-sm font-medium rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+            <% if @extraction_template.errors[:fields].any? %>
+              <p class="mt-2 text-sm text-red-600 dark:text-red-400"><%= @extraction_template.errors[:fields].first %></p>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Settings -->
+        <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+          <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+            <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Extraction Settings</h3>
+          </div>
+          <div class="px-6 py-4 space-y-4">
+            <label class="flex items-start">
+              <%= check_box_tag "extraction_template[settings][auto_approve]", 
+                  true, 
+                  @extraction_template.settings&.dig("auto_approve"),
+                  class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mt-1 mr-3" %>
+              <div>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Auto-approve high confidence extractions</span>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Automatically approve extractions with confidence above threshold</p>
+              </div>
+            </label>
+
+            <label class="flex items-start">
+              <%= check_box_tag "extraction_template[settings][require_human_review]", 
+                  true, 
+                  @extraction_template.settings&.dig("require_human_review"),
+                  class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mt-1 mr-3" %>
+              <div>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Require human review</span>
+                <p class="text-sm text-gray-500 dark:text-gray-400">All extractions must be manually reviewed before approval</p>
+              </div>
+            </label>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Confidence Threshold
+              </label>
+              <input type="number" 
+                     name="extraction_template[settings][confidence_threshold]" 
+                     value="<%= @extraction_template.settings&.dig('confidence_threshold') || 0.8 %>"
+                     step="0.1"
+                     min="0"
+                     max="1"
+                     class="block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+              <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                Minimum confidence score for auto-approval (0.0 - 1.0)
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="flex items-center justify-end space-x-3">
+          <%= link_to "Cancel", @extraction_template, class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" %>
+          <%= f.submit "Update Template", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="lg:col-span-1 space-y-6">
+      <!-- Template Info -->
+      <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+          <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Template Information</h3>
+        </div>
+        <div class="px-6 py-4 space-y-3">
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Created</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">
+              <%= @extraction_template.created_at.strftime("%B %d, %Y") %>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Last Updated</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">
+              <%= @extraction_template.updated_at.strftime("%B %d, %Y at %I:%M %p") %>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Extractions</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">
+              <%= number_with_delimiter(@extraction_template.documents.count) %>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Success Rate</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">
+              <%= @extraction_template.extraction_success_rate %>%
+            </dd>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+          <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Quick Actions</h3>
+        </div>
+        <div class="px-6 py-4 space-y-2">
+          <%= link_to test_extraction_template_path(@extraction_template), 
+              class: "w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500",
+              data: { turbo_frame: "test_modal" } do %>
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            Test Template
+          <% end %>
+          
+          <%= link_to duplicate_extraction_template_path(@extraction_template), 
+              method: :post,
+              class: "w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" do %>
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            Duplicate Template
+          <% end %>
+          
+          <%= link_to export_extraction_template_path(@extraction_template, format: :json), 
+              class: "w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" do %>
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Export Template
+          <% end %>
+        </div>
+      </div>
+
+      <!-- AI Optimization -->
+      <% if @extraction_template.persisted? && @extraction_template.documents.any? %>
+        <%= render 'prompt_optimizer', extraction_template: @extraction_template %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+  let fieldIndex = <%= @extraction_template.fields.size %>;
+  
+  function addField() {
+    const container = document.getElementById('fields-container');
+    const fieldRow = document.createElement('div');
+    fieldRow.className = 'field-row flex items-start space-x-3 p-4 bg-gray-50 dark:bg-coffee-900 rounded-lg';
+    
+    fieldRow.innerHTML = `
+      <div class="flex-1">
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Field Name</label>
+        <input type="text" 
+               name="extraction_template[fields][${fieldIndex}][name]" 
+               placeholder="e.g., invoice_number"
+               class="block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-800 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+      </div>
+      <div class="flex-1">
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Type</label>
+        <select name="extraction_template[fields][${fieldIndex}][type]" 
+                class="block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-800 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+          <option value="string">String</option>
+          <option value="number">Number</option>
+          <option value="date">Date</option>
+          <option value="boolean">Boolean</option>
+          <option value="array">Array</option>
+        </select>
+      </div>
+      <div class="flex items-center pt-6">
+        <label class="flex items-center">
+          <input type="checkbox" 
+                 name="extraction_template[fields][${fieldIndex}][required]" 
+                 value="true"
+                 class="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mr-2">
+          <span class="text-sm text-gray-700 dark:text-gray-300">Required</span>
+        </label>
+      </div>
+      <div class="pt-6">
+        <button type="button" 
+                onclick="removeField(this)"
+                class="inline-flex items-center p-2 border border-transparent text-sm font-medium rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+        </button>
+      </div>
+    `;
+    
+    container.appendChild(fieldRow);
+    fieldIndex++;
+  }
+  
+  function removeField(button) {
+    button.closest('.field-row').remove();
+  }
+</script>
+
+<!-- Test Modal Frame -->
+<turbo-frame id="test_modal"></turbo-frame>

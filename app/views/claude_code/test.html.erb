@@ -1,0 +1,17 @@
+<div class="p-8">
+  <h1 class="text-2xl mb-4">Stimulus Test Page</h1>
+  
+  <div data-controller="claude-code">
+    <button data-action="click->claude-code#generateAPI" class="px-4 py-2 bg-blue-500 text-white rounded">
+      Test Generate API
+    </button>
+    
+    <div data-claude-code-target="loading" class="hidden mt-4 p-4 bg-yellow-100">
+      Loading...
+    </div>
+    
+    <div data-claude-code-target="result" class="hidden mt-4 p-4 bg-green-100">
+      Result will appear here
+    </div>
+  </div>
+</div>

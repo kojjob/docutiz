@@ -56,8 +56,8 @@ gem "pundit"
 # Document Processing
 gem "pdf-reader"
 gem "mini_magick"
-gem "ruby-openai"
-gem "anthropic"
+gem "ruby_llm" # Unified AI provider interface
+gem "faraday" # For API calls
 
 # Payments
 gem "pay", "~> 7.0"
@@ -79,6 +79,11 @@ gem "aws-sdk-s3"
 # Monitoring
 gem "honeybadger"
 gem "lograge"
+
+gem "meta-tags"
+
+# For sitemap generation
+gem "sitemap_generator"
 
 # Background job monitoring
 gem "mission_control-jobs"

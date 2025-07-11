@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
+  # allow_browser versions: :modern
 
   # Devise configuration
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -56,4 +56,11 @@ class ApplicationController < ActionController::Base
   def require_owner!
     redirect_to dashboard_path, alert: "Not authorized" unless current_user&.owner?
   end
+
+  def current_organization
+    return nil unless request.subdomain.present? && request.subdomain != 'www'
+    @current_organization ||= Organization.find_by(subdomain: request.subdomain)
+  end
+  
+  helper_method :current_organization
 end

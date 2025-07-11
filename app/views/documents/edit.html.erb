@@ -1,0 +1,310 @@
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Header -->
+  <div class="mb-8">
+    <nav class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2" aria-label="Breadcrumb">
+      <%= link_to "Documents", documents_path, class: "hover:text-gray-700 dark:hover:text-gray-200" %>
+      <svg class="mx-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+      </svg>
+      <%= link_to @document.name, @document, class: "hover:text-gray-700 dark:hover:text-gray-200" %>
+      <svg class="mx-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+      </svg>
+      <span class="text-gray-900 dark:text-gray-100">Edit</span>
+    </nav>
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Edit Document</h1>
+    <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+      Update document information and processing settings
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Main Form -->
+    <div class="lg:col-span-2">
+      <%= form_with model: @document, local: true, class: "space-y-6" do |f| %>
+        <!-- Document Information -->
+        <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+          <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+            <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Document Information</h3>
+          </div>
+          <div class="px-6 py-4 space-y-4">
+            <div>
+              <%= f.label :name, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+              <%= f.text_field :name, 
+                  class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm",
+                  placeholder: "Enter document name" %>
+              <% if @document.errors[:name].any? %>
+                <p class="mt-1 text-sm text-red-600 dark:text-red-400"><%= @document.errors[:name].first %></p>
+              <% end %>
+            </div>
+
+            <div>
+              <%= f.label :description, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+              <%= f.text_area :description, 
+                  rows: 3,
+                  class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm",
+                  placeholder: "Add notes or description (optional)" %>
+              <% if @document.errors[:description].any? %>
+                <p class="mt-1 text-sm text-red-600 dark:text-red-400"><%= @document.errors[:description].first %></p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Processing Settings -->
+        <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+          <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+            <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Processing Settings</h3>
+          </div>
+          <div class="px-6 py-4 space-y-4">
+            <div>
+              <%= f.label :extraction_template_id, "Extraction Template", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+              <%= f.select :extraction_template_id,
+                  options_for_select(
+                    [["No template (store only)", ""]] + 
+                    Current.tenant.extraction_templates.active.order(:name).map { |t| ["#{t.name} (#{t.document_type.humanize})", t.id] },
+                    @document.extraction_template_id
+                  ),
+                  {},
+                  class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm" %>
+              <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                Changing the template will require reprocessing the document
+              </p>
+              <% if @document.errors[:extraction_template_id].any? %>
+                <p class="mt-1 text-sm text-red-600 dark:text-red-400"><%= @document.errors[:extraction_template_id].first %></p>
+              <% end %>
+            </div>
+
+            <% if @document.extraction_template_id_changed? && @document.extraction_template_id.present? %>
+              <div class="rounded-lg bg-yellow-50 dark:bg-yellow-900/20 p-4">
+                <div class="flex">
+                  <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                  </div>
+                  <div class="ml-3">
+                    <h3 class="text-sm font-medium text-yellow-800 dark:text-yellow-200">
+                      Template Change Detected
+                    </h3>
+                    <div class="mt-2 text-sm text-yellow-700 dark:text-yellow-300">
+                      <p>The document will be reprocessed with the new template after saving.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Current File -->
+        <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+          <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+            <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Current File</h3>
+          </div>
+          <div class="px-6 py-4">
+            <% if @document.file.attached? %>
+              <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0">
+                  <% if @document.file.content_type.start_with?('image/') %>
+                    <%= image_tag @document.file.variant(resize_to_limit: [100, 100]), 
+                        class: "h-20 w-20 rounded-lg object-cover border border-gray-200 dark:border-coffee-700" %>
+                  <% else %>
+                    <div class="h-20 w-20 rounded-lg bg-gray-100 dark:bg-coffee-900 flex items-center justify-center">
+                      <svg class="h-10 w-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    <%= @document.original_filename %>
+                  </p>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">
+                    <%= number_to_human_size(@document.file_size) %> • <%= @document.content_type %>
+                  </p>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    Uploaded <%= @document.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+                  </p>
+                </div>
+              </div>
+              <p class="mt-4 text-sm text-gray-500 dark:text-gray-400">
+                <svg class="inline h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Files cannot be changed after upload. Create a new document to upload a different file.
+              </p>
+            <% else %>
+              <p class="text-sm text-gray-500 dark:text-gray-400">No file attached</p>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="flex items-center justify-end space-x-3">
+          <%= link_to "Cancel", @document, class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" %>
+          <%= f.submit "Update Document", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="lg:col-span-1 space-y-6">
+      <!-- Document Status -->
+      <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+          <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Document Status</h3>
+        </div>
+        <div class="px-6 py-4 space-y-3">
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Current Status</dt>
+            <dd class="mt-1">
+              <% case @document.status %>
+              <% when 'pending' %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                  <svg class="mr-1.5 h-2 w-2" fill="currentColor" viewBox="0 0 8 8">
+                    <circle cx="4" cy="4" r="3" />
+                  </svg>
+                  Pending
+                </span>
+              <% when 'processing' %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                  <svg class="mr-1.5 h-2 w-2 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Processing
+                </span>
+              <% when 'completed' %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                  <svg class="mr-1.5 h-2 w-2" fill="currentColor" viewBox="0 0 8 8">
+                    <circle cx="4" cy="4" r="3" />
+                  </svg>
+                  Completed
+                </span>
+              <% when 'failed' %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+                  <svg class="mr-1.5 h-2 w-2" fill="currentColor" viewBox="0 0 8 8">
+                    <circle cx="4" cy="4" r="3" />
+                  </svg>
+                  Failed
+                </span>
+              <% when 'requires_review' %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                  <svg class="mr-1.5 h-2 w-2" fill="currentColor" viewBox="0 0 8 8">
+                    <circle cx="4" cy="4" r="3" />
+                  </svg>
+                  Requires Review
+                </span>
+              <% when 'approved' %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200">
+                  <svg class="mr-1.5 h-2 w-2" fill="currentColor" viewBox="0 0 8 8">
+                    <circle cx="4" cy="4" r="3" />
+                  </svg>
+                  Approved
+                </span>
+              <% end %>
+            </dd>
+          </div>
+          
+          <% if @document.processing_started_at %>
+            <div>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Processing Started</dt>
+              <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">
+                <%= @document.processing_started_at.strftime("%B %d at %I:%M %p") %>
+              </dd>
+            </div>
+          <% end %>
+          
+          <% if @document.processing_completed_at %>
+            <div>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Processing Completed</dt>
+              <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">
+                <%= @document.processing_completed_at.strftime("%B %d at %I:%M %p") %>
+              </dd>
+            </div>
+          <% end %>
+          
+          <% if @document.error_message.present? %>
+            <div>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Error Message</dt>
+              <dd class="mt-1 text-sm text-red-600 dark:text-red-400">
+                <%= @document.error_message %>
+              </dd>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+          <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Quick Actions</h3>
+        </div>
+        <div class="px-6 py-4 space-y-2">
+          <% if @document.extraction_template.present? && !@document.processing? %>
+            <%= button_to document_path(@document), 
+                method: :patch,
+                params: { document: { status: 'pending' } },
+                form_class: "w-full",
+                class: "w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" do %>
+              <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Reprocess Document
+            <% end %>
+          <% end %>
+          
+          <%= link_to @document, 
+              class: "w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" do %>
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            View Document
+          <% end %>
+          
+          <% if @document.file.attached? %>
+            <%= link_to rails_blob_path(@document.file, disposition: "attachment"), 
+                class: "w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" do %>
+              <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Download File
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Extraction Results Summary -->
+      <% if @document.extraction_results.any? %>
+        <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+          <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+            <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Extraction Summary</h3>
+          </div>
+          <div class="px-6 py-4 space-y-3">
+            <div>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Fields</dt>
+              <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">
+                <%= @document.extraction_results.count %>
+              </dd>
+            </div>
+            <div>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Average Confidence</dt>
+              <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">
+                <%= number_to_percentage(@document.extraction_results.average(:confidence_score) * 100, precision: 0) %>
+              </dd>
+            </div>
+            <div>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Template Used</dt>
+              <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">
+                <%= @document.extraction_template&.name || "None" %>
+              </dd>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

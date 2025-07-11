@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Theme Test</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
+  <%= javascript_importmap_tags %>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 min-h-screen p-8">
+  <div class="max-w-2xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8">Theme Toggle Test</h1>
+    
+    <!-- Test 1: Basic Toggle -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Test 1: Basic Toggle</h2>
+      <div data-controller="theme">
+        <button data-action="click->theme#toggle" 
+                class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded">
+          Toggle Theme
+        </button>
+        <span data-theme-target="icon" class="ml-4">
+          <svg class="inline h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          </svg>
+        </span>
+      </div>
+    </div>
+    
+    <!-- Test 2: Manual Toggle -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Test 2: Manual JavaScript</h2>
+      <button onclick="manualToggle()" 
+              class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded">
+        Manual Toggle
+      </button>
+      <p class="mt-2 text-gray-600 dark:text-gray-400">
+        Current theme: <span id="current-theme" class="font-mono"></span>
+      </p>
+    </div>
+    
+    <!-- Test 3: Console Info -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6">
+      <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Debug Info</h2>
+      <pre id="debug-info" class="text-sm bg-gray-100 dark:bg-gray-700 p-4 rounded overflow-x-auto"></pre>
+    </div>
+  </div>
+  
+  <script>
+    // Manual toggle function
+    function manualToggle() {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      updateThemeDisplay();
+    }
+    
+    function updateThemeDisplay() {
+      const isDark = document.documentElement.classList.contains('dark');
+      document.getElementById('current-theme').textContent = isDark ? 'dark' : 'light';
+    }
+    
+    // Debug information
+    function updateDebugInfo() {
+      const info = {
+        stimulus: typeof window.Stimulus !== 'undefined',
+        stimulusDebug: window.Stimulus?.debug,
+        controllers: window.Stimulus ? Object.keys(window.Stimulus.router.modulesByIdentifier) : [],
+        localStorage: localStorage.getItem('theme'),
+        htmlClasses: document.documentElement.className,
+        isDark: document.documentElement.classList.contains('dark')
+      };
+      document.getElementById('debug-info').textContent = JSON.stringify(info, null, 2);
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      updateThemeDisplay();
+      updateDebugInfo();
+      
+      // Re-check after a delay to ensure Stimulus is loaded
+      setTimeout(() => {
+        updateDebugInfo();
+        console.log('Stimulus loaded:', window.Stimulus);
+        if (window.Stimulus) {
+          console.log('Registered controllers:', Object.keys(window.Stimulus.router.modulesByIdentifier));
+        }
+      }, 1000);
+    });
+    
+    // Listen for Stimulus events
+    document.addEventListener('stimulus:connected', (event) => {
+      console.log('Stimulus controller connected:', event.detail);
+      updateDebugInfo();
+    });
+  </script>
+</body>
+</html>

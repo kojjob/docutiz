@@ -1,0 +1,369 @@
+<%# app/views/welcome/about.html.erb %>
+<% content_for :title, "About Us - Docutiz" %>
+<% content_for :head do %>
+  <meta name="description" content="Learn about Docutiz's mission to transform document processing with AI. Meet our team and discover how we're revolutionizing business automation.">
+<% end %>
+
+<div class="min-h-screen bg-gray-50">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+          <%= link_to root_path, class: "text-xl font-bold text-gray-900" do %>
+            Docutiz
+          <% end %>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+          <%= link_to "← Back to Home", root_path, class: "text-gray-700 hover:text-blue-600 font-medium transition-colors" %>
+          <% unless user_signed_in? %>
+            <%= link_to "Start Free Trial", new_user_registration_path, 
+                class: "bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="py-24 bg-gradient-to-r from-blue-600 to-purple-600">
+    <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6">
+        Transforming Document Processing with AI
+      </h1>
+      <p class="text-xl text-blue-100 mb-8">
+        We're on a mission to eliminate manual data entry and unlock the hidden value in business documents worldwide.
+      </p>
+    </div>
+  </section>
+
+  <!-- Company Story -->
+  <section class="py-24 -mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-2xl shadow-lg p-8 lg:p-12">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">Our Story</h2>
+            <div class="space-y-6 text-gray-600">
+              <p class="text-lg">
+                Docutiz was born from a simple yet profound realization: businesses worldwide waste countless hours and resources on manual document processing. Our founders, experienced software engineers and AI researchers, witnessed firsthand how organizations struggle with invoices, receipts, contracts, and other critical documents.
+              </p>
+              <p class="text-lg">
+                In 2024, we set out to solve this problem by combining cutting-edge AI technology with intuitive design. Our platform leverages the latest advances in computer vision and natural language processing to extract structured data from any business document with enterprise-grade accuracy.
+              </p>
+              <p class="text-lg">
+                Today, we're proud to serve hundreds of businesses, from innovative startups to Fortune 500 companies, helping them save time, reduce errors, and focus on what matters most – growing their business.
+              </p>
+            </div>
+          </div>
+          
+          <div class="relative">
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
+              <div class="grid grid-cols-2 gap-6">
+                <div class="text-center">
+                  <div class="text-3xl font-bold mb-2">500+</div>
+                  <div class="text-blue-100">Businesses Served</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-3xl font-bold mb-2">10M+</div>
+                  <div class="text-blue-100">Documents Processed</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-3xl font-bold mb-2">98%</div>
+                  <div class="text-blue-100">Accuracy Rate</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-3xl font-bold mb-2">24/7</div>
+                  <div class="text-blue-100">Support Available</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission & Vision -->
+  <section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+          Our Mission & Vision
+        </h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          We believe in a future where businesses can focus on innovation rather than manual data processing.
+        </p>
+      </div>
+      
+      <div class="grid lg:grid-cols-2 gap-12">
+        <div class="bg-blue-50 rounded-2xl p-8">
+          <div class="w-16 h-16 bg-blue-600 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Our Mission</h3>
+          <p class="text-gray-600 text-lg">
+            To empower businesses worldwide by eliminating manual document processing through intelligent automation. We make AI-powered document extraction accessible, accurate, and affordable for organizations of all sizes.
+          </p>
+        </div>
+        
+        <div class="bg-purple-50 rounded-2xl p-8">
+          <div class="w-16 h-16 bg-purple-600 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Our Vision</h3>
+          <p class="text-gray-600 text-lg">
+            A world where every business document contains instantly accessible, structured data. We envision a future where manual data entry is obsolete, and businesses can make faster, data-driven decisions.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Values -->
+  <section class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+          Our Core Values
+        </h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          These principles guide everything we do, from product development to customer success.
+        </p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
+          <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Accuracy First</h3>
+          <p class="text-gray-600">We obsess over precision because your business depends on reliable data extraction.</p>
+        </div>
+        
+        <div class="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
+          <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Security & Privacy</h3>
+          <p class="text-gray-600">Your documents are sacred. We protect them with enterprise-grade security measures.</p>
+        </div>
+        
+        <div class="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
+          <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Innovation</h3>
+          <p class="text-gray-600">We continuously push the boundaries of what's possible with AI and automation.</p>
+        </div>
+        
+        <div class="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
+          <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Customer Success</h3>
+          <p class="text-gray-600">Your success is our success. We're partners in your digital transformation journey.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+          Meet Our Team
+        </h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          We're a diverse group of engineers, designers, and AI researchers united by a passion for solving complex problems.
+        </p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Team Member 1 -->
+        <div class="bg-gray-50 rounded-xl p-6 text-center hover:bg-gray-100 transition-colors">
+          <div class="w-20 h-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-white font-bold text-xl">SA</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Sarah Anderson</h3>
+          <p class="text-blue-600 font-medium mb-3">CEO & Co-Founder</p>
+          <p class="text-gray-600">Former AI researcher at Google. PhD in Computer Science from Stanford. Passionate about making AI accessible to businesses.</p>
+        </div>
+        
+        <!-- Team Member 2 -->
+        <div class="bg-gray-50 rounded-xl p-6 text-center hover:bg-gray-100 transition-colors">
+          <div class="w-20 h-20 bg-gradient-to-r from-green-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-white font-bold text-xl">MC</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Michael Chen</h3>
+          <p class="text-blue-600 font-medium mb-3">CTO & Co-Founder</p>
+          <p class="text-gray-600">Full-stack engineer with 15+ years experience. Previously Tech Lead at Stripe. Expert in scalable AI infrastructure.</p>
+        </div>
+        
+        <!-- Team Member 3 -->
+        <div class="bg-gray-50 rounded-xl p-6 text-center hover:bg-gray-100 transition-colors">
+          <div class="w-20 h-20 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-white font-bold text-xl">ER</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Emily Rodriguez</h3>
+          <p class="text-blue-600 font-medium mb-3">Head of Product</p>
+          <p class="text-gray-600">Product strategist with deep expertise in enterprise software. Former PM at Salesforce. Focused on user experience.</p>
+        </div>
+        
+        <!-- Team Member 4 -->
+        <div class="bg-gray-50 rounded-xl p-6 text-center hover:bg-gray-100 transition-colors">
+          <div class="w-20 h-20 bg-gradient-to-r from-orange-600 to-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-white font-bold text-xl">DK</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">David Kim</h3>
+          <p class="text-blue-600 font-medium mb-3">Lead AI Engineer</p>
+          <p class="text-gray-600">ML specialist with focus on computer vision. Former researcher at OpenAI. Leads our AI model development.</p>
+        </div>
+        
+        <!-- Team Member 5 -->
+        <div class="bg-gray-50 rounded-xl p-6 text-center hover:bg-gray-100 transition-colors">
+          <div class="w-20 h-20 bg-gradient-to-r from-teal-600 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-white font-bold text-xl">AJ</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Aisha Johnson</h3>
+          <p class="text-blue-600 font-medium mb-3">Head of Customer Success</p>
+          <p class="text-gray-600">Customer success expert with 10+ years in SaaS. Ensures our customers achieve maximum value from our platform.</p>
+        </div>
+        
+        <!-- Team Member 6 -->
+        <div class="bg-gray-50 rounded-xl p-6 text-center hover:bg-gray-100 transition-colors">
+          <div class="w-20 h-20 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-white font-bold text-xl">JW</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">James Wilson</h3>
+          <p class="text-blue-600 font-medium mb-3">Head of Security</p>
+          <p class="text-gray-600">Cybersecurity expert with enterprise security background. Ensures our platform meets the highest security standards.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technology & Innovation -->
+  <section class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+            Cutting-Edge Technology
+          </h2>
+          <p class="text-xl text-gray-600 mb-8">
+            Our platform combines the latest advances in artificial intelligence with robust, scalable infrastructure to deliver unmatched performance.
+          </p>
+          
+          <div class="space-y-6">
+            <div class="flex items-start space-x-4">
+              <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Advanced AI Models</h3>
+                <p class="text-gray-600">We leverage GPT-4 Vision, Claude AI, and our proprietary models trained specifically for document understanding.</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start space-x-4">
+              <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Cloud-Native Architecture</h3>
+                <p class="text-gray-600">Built on Rails 8 with modern infrastructure that scales automatically to handle any volume of documents.</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start space-x-4">
+              <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Enterprise Security</h3>
+                <p class="text-gray-600">End-to-end encryption, SOC 2 compliance, and enterprise-grade security measures protect your sensitive data.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+          <h3 class="text-xl font-semibold text-gray-900 mb-6">Our Technology Stack</h3>
+          <div class="grid grid-cols-2 gap-4">
+            <% [
+              { name: "Rails 8", category: "Backend" },
+              { name: "GPT-4 Vision", category: "AI" },
+              { name: "PostgreSQL", category: "Database" },
+              { name: "Redis", category: "Cache" },
+              { name: "AWS", category: "Cloud" },
+              { name: "Docker", category: "Platform" },
+              { name: "Hotwire", category: "Frontend" },
+              { name: "TailwindCSS", category: "Styling" }
+            ].each do |tech| %>
+              <div class="bg-gray-50 rounded-lg p-3">
+                <div class="font-medium text-gray-900 text-sm"><%= tech[:name] %></div>
+                <div class="text-xs text-gray-500"><%= tech[:category] %></div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="py-24 bg-gradient-to-r from-blue-600 to-purple-600">
+    <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl lg:text-4xl font-bold text-white mb-6">
+        Join Us on Our Mission
+      </h2>
+      <p class="text-xl text-blue-100 mb-8">
+        Ready to transform your document processing? Start your free trial today and experience the power of AI-driven automation.
+      </p>
+      
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <%= link_to new_user_registration_path, 
+            class: "inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-xl bg-white text-blue-600 hover:bg-gray-50 transition-all transform hover:scale-105 shadow-xl" do %>
+          Start Free Trial
+          <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+          </svg>
+        <% end %>
+        <a href="mailto:hello@docutiz.com" class="inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all">
+          Contact Us
+        </a>
+      </div>
+      
+      <div class="mt-8 text-blue-100">
+        <p>Questions? Email us at <a href="mailto:hello@docutiz.com" class="underline hover:text-white">hello@docutiz.com</a></p>
+      </div>
+    </div>
+  </section>
+</div>

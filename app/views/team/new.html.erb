@@ -1,0 +1,155 @@
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+  <div class="max-w-2xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+      <nav class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2" aria-label="Breadcrumb">
+        <%= link_to "Team", team_index_path, class: "hover:text-gray-700 dark:hover:text-gray-200" %>
+        <svg class="mx-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+        </svg>
+        <span class="text-gray-900 dark:text-gray-100">Invite Member</span>
+      </nav>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Invite Team Member</h1>
+      <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+        Send an invitation to add a new member to your team
+      </p>
+    </div>
+
+    <%= form_with model: @invitation, url: team_index_path, local: true, class: "space-y-6" do |f| %>
+      <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+          <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Member Information</h3>
+        </div>
+        <div class="px-6 py-6 space-y-6">
+          <div>
+            <%= f.label :email, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= f.email_field :email, 
+                required: true,
+                class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm",
+                placeholder: "colleague@example.com" %>
+            <% if @invitation.errors[:email].any? %>
+              <p class="mt-1 text-sm text-red-600 dark:text-red-400"><%= @invitation.errors[:email].first %></p>
+            <% end %>
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              We'll send an invitation to this email address
+            </p>
+          </div>
+
+          <div>
+            <%= f.label :name, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= f.text_field :name, 
+                class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm",
+                placeholder: "John Doe (optional)" %>
+            <% if @invitation.errors[:name].any? %>
+              <p class="mt-1 text-sm text-red-600 dark:text-red-400"><%= @invitation.errors[:name].first %></p>
+            <% end %>
+          </div>
+
+          <div>
+            <%= f.label :role, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+            <%= f.select :role, 
+                options_for_select([
+                  ["Member - Can view and upload documents", "member"],
+                  ["Admin - Can manage team and templates", "admin"]
+                ], @invitation.role),
+                {},
+                class: "block w-full rounded-lg border-gray-300 dark:border-coffee-700 dark:bg-coffee-900 dark:text-gray-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm" %>
+            <% if @invitation.errors[:role].any? %>
+              <p class="mt-1 text-sm text-red-600 dark:text-red-400"><%= @invitation.errors[:role].first %></p>
+            <% end %>
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              Choose the permissions level for this team member
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Current Team Limit Info -->
+      <% if Current.tenant.users.count >= (Current.tenant.settings["max_users"] || 3) - 1 %>
+        <div class="rounded-lg bg-yellow-50 dark:bg-yellow-900/20 p-4">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <h3 class="text-sm font-medium text-yellow-800 dark:text-yellow-200">
+                Approaching Team Limit
+              </h3>
+              <p class="mt-1 text-sm text-yellow-700 dark:text-yellow-300">
+                Your current plan allows up to <%= Current.tenant.settings["max_users"] %> team members. 
+                You currently have <%= Current.tenant.users.count %> members.
+                <%= link_to "Upgrade your plan", billing_settings_path, class: "font-medium underline hover:no-underline" %> to add more.
+              </p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Permissions Preview -->
+      <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+          <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">Role Permissions</h3>
+        </div>
+        <div class="px-6 py-4">
+          <div class="space-y-4">
+            <div>
+              <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Member</h4>
+              <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                <li class="flex items-center">
+                  <svg class="h-4 w-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Upload and manage their own documents
+                </li>
+                <li class="flex items-center">
+                  <svg class="h-4 w-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  View and use extraction templates
+                </li>
+                <li class="flex items-center">
+                  <svg class="h-4 w-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Access API for integrations
+                </li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Admin (includes all Member permissions)</h4>
+              <ul class="mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                <li class="flex items-center">
+                  <svg class="h-4 w-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Create and manage extraction templates
+                </li>
+                <li class="flex items-center">
+                  <svg class="h-4 w-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Invite and manage team members
+                </li>
+                <li class="flex items-center">
+                  <svg class="h-4 w-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  View all team documents
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="flex items-center justify-end space-x-3">
+        <%= link_to "Cancel", team_index_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" %>
+        <%= f.submit "Send Invitation", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 cursor-pointer" %>
+      </div>
+    <% end %>
+  </div>
+</div>

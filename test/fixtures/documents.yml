@@ -1,0 +1,37 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+pending_invoice:
+  tenant: one
+  user: owner_one
+  extraction_template: invoice_template
+  name: Invoice INV-001
+  description: Test invoice document
+  status: pending
+  original_filename: invoice_001.pdf
+  content_type: application/pdf
+  file_size: 102400
+  extracted_data: {}
+  metadata: 
+    source: upload
+  processing_started_at: null
+  processing_completed_at: null
+  error_message: null
+
+completed_receipt:
+  tenant: two
+  user: admin_two
+  extraction_template: receipt_template
+  name: Receipt from Store
+  description: Test receipt
+  status: completed
+  original_filename: receipt.jpg
+  content_type: image/jpeg
+  file_size: 51200
+  extracted_data: 
+    merchant_name: Test Store
+    total_amount: 42.50
+  metadata: 
+    source: api
+  processing_started_at: <%= 5.minutes.ago %>
+  processing_completed_at: <%= 3.minutes.ago %>
+  error_message: null

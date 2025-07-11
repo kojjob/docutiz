@@ -1,0 +1,379 @@
+<div class="px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Header -->
+  <div class="mb-8">
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <div>
+        <nav class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2" aria-label="Breadcrumb">
+          <%= link_to "Templates", extraction_templates_path, class: "hover:text-gray-700 dark:hover:text-gray-200" %>
+          <svg class="mx-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+          </svg>
+          <span class="text-gray-900 dark:text-gray-100"><%= @extraction_template.name %></span>
+        </nav>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+          <%= @extraction_template.name %>
+        </h1>
+        <div class="mt-2 flex items-center space-x-3">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200">
+            <%= @extraction_template.document_type.humanize %>
+          </span>
+          <span class="text-sm text-gray-500 dark:text-gray-400">
+            Created <%= @extraction_template.created_at.strftime("%B %d, %Y") %>
+          </span>
+        </div>
+      </div>
+      <div class="mt-4 sm:mt-0 flex items-center space-x-3">
+        <%= link_to edit_extraction_template_path(@extraction_template), class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-200" do %>
+          <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          </svg>
+          Edit Template
+        <% end %>
+        
+        <div class="relative" data-controller="dropdown">
+          <button type="button" 
+                  data-action="click->dropdown#toggle"
+                  class="inline-flex items-center p-2 border border-gray-300 dark:border-coffee-700 rounded-lg shadow-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-200">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+            </svg>
+          </button>
+          
+          <div data-dropdown-target="menu"
+               class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-white dark:bg-coffee-800 ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 dark:divide-coffee-700">
+            <div class="py-1">
+              <%= link_to "#", class: "block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-coffee-700" do %>
+                <svg class="inline h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                Duplicate Template
+              <% end %>
+              <%= link_to "#", class: "block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-coffee-700" do %>
+                <svg class="inline h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Export Template
+              <% end %>
+            </div>
+            <div class="py-1">
+              <%= link_to extraction_template_path(@extraction_template), method: :delete, data: { confirm: "Are you sure?" }, class: "block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-coffee-700" do %>
+                <svg class="inline h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                Delete Template
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Performance Metrics -->
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+    <div class="relative overflow-hidden rounded-lg bg-white dark:bg-coffee-800 p-6 shadow-sm border border-gray-200 dark:border-coffee-700">
+      <dt>
+        <div class="absolute rounded-lg bg-teal-500 p-3">
+          <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        </div>
+        <p class="ml-16 text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Total Uses</p>
+      </dt>
+      <dd class="ml-16 flex items-baseline">
+        <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+          <%= number_with_delimiter(@performance[:total_uses]) %>
+        </p>
+      </dd>
+    </div>
+
+    <div class="relative overflow-hidden rounded-lg bg-white dark:bg-coffee-800 p-6 shadow-sm border border-gray-200 dark:border-coffee-700">
+      <dt>
+        <div class="absolute rounded-lg bg-green-500 p-3">
+          <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <p class="ml-16 text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Success Rate</p>
+      </dt>
+      <dd class="ml-16 flex items-baseline">
+        <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+          <%= number_to_percentage(@performance[:success_rate], precision: 1) %>
+        </p>
+        <% if @performance[:success_rate] >= 90 %>
+          <p class="ml-2 flex items-baseline text-sm font-semibold text-green-600 dark:text-green-400">
+            <svg class="self-center h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0L15 8.586V5a1 1 0 112 0v5a1 1 0 01-1 1h-5a1 1 0 110-2h3.586l-4.293-4.293a1 1 0 00-1.414 0l-4 4a1 1 0 01-1.414-1.414z" clip-rule="evenodd" />
+            </svg>
+          </p>
+        <% end %>
+      </dd>
+    </div>
+
+    <div class="relative overflow-hidden rounded-lg bg-white dark:bg-coffee-800 p-6 shadow-sm border border-gray-200 dark:border-coffee-700">
+      <dt>
+        <div class="absolute rounded-lg bg-yellow-500 p-3">
+          <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
+        <p class="ml-16 text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Avg. Confidence</p>
+      </dt>
+      <dd class="ml-16 flex items-baseline">
+        <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+          <%= number_to_percentage(@performance[:avg_confidence], precision: 1) %>
+        </p>
+      </dd>
+    </div>
+
+    <div class="relative overflow-hidden rounded-lg bg-white dark:bg-coffee-800 p-6 shadow-sm border border-gray-200 dark:border-coffee-700">
+      <dt>
+        <div class="absolute rounded-lg bg-indigo-500 p-3">
+          <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+        </div>
+        <p class="ml-16 text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Fields</p>
+      </dt>
+      <dd class="ml-16 flex items-baseline">
+        <p class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+          <%= @extraction_template.fields.size %>
+        </p>
+        <p class="ml-2 text-sm text-gray-500 dark:text-gray-400">configured</p>
+      </dd>
+    </div>
+  </div>
+
+  <!-- Template Configuration -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+    <!-- Prompt Template -->
+    <div class="lg:col-span-2">
+      <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+          <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">
+            Prompt Template
+          </h3>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            The AI instructions for extracting data from documents
+          </p>
+        </div>
+        <div class="px-6 py-4">
+          <div class="bg-gray-50 dark:bg-coffee-900 rounded-lg p-4">
+            <pre class="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap font-mono"><%= @extraction_template.prompt_template %></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Template Info -->
+    <div class="lg:col-span-1">
+      <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+          <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">
+            Information
+          </h3>
+        </div>
+        <div class="px-6 py-4 space-y-4">
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Document Type</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">
+              <%= @extraction_template.document_type.humanize %>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Created</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">
+              <%= @extraction_template.created_at.strftime("%B %d, %Y") %>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Last Updated</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">
+              <%= @extraction_template.updated_at.strftime("%B %d, %Y") %>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Status</dt>
+            <dd class="mt-1">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                Active
+              </span>
+            </dd>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Extraction Fields -->
+  <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700 mb-8">
+    <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+      <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">
+        Extraction Fields
+      </h3>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+        <%= @extraction_template.fields.size %> fields configured for data extraction
+      </p>
+    </div>
+    <div class="overflow-hidden">
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-coffee-700">
+        <thead class="bg-gray-50 dark:bg-coffee-900">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Field Name
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Type
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Required
+            </th>
+            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+              Accuracy
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white dark:bg-coffee-800 divide-y divide-gray-200 dark:divide-coffee-700">
+          <% @extraction_template.fields.each_with_index do |field, index| %>
+            <tr class="<%= index.even? ? 'bg-white dark:bg-coffee-800' : 'bg-gray-50 dark:bg-coffee-900' %>">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div>
+                  <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    <%= field["name"] %>
+                  </div>
+                  <% if field["description"].present? %>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                      <%= field["description"] %>
+                    </div>
+                  <% end %>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                  <%= field["type"] %>
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <% if field["required"] %>
+                  <span class="inline-flex items-center px-2 py-1 text-xs font-medium text-teal-800 dark:text-teal-200">
+                    <svg class="mr-1.5 h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    Required
+                  </span>
+                <% else %>
+                  <span class="text-xs text-gray-500 dark:text-gray-400">Optional</span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <% if @performance[:field_accuracy] && @performance[:field_accuracy][field["name"]] %>
+                  <div class="flex items-center justify-end">
+                    <span class="text-gray-900 dark:text-gray-100">
+                      <%= number_to_percentage(@performance[:field_accuracy][field["name"]][:accuracy], precision: 0) %>
+                    </span>
+                    <div class="ml-2 w-16 bg-gray-200 dark:bg-coffee-700 rounded-full h-2">
+                      <div class="bg-teal-500 h-2 rounded-full" style="width: <%= @performance[:field_accuracy][field["name"]][:accuracy] %>%"></div>
+                    </div>
+                  </div>
+                <% else %>
+                  <span class="text-gray-400 dark:text-gray-500">—</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Recent Extractions -->
+  <div class="bg-white dark:bg-coffee-800 shadow-sm rounded-lg border border-gray-200 dark:border-coffee-700">
+    <div class="px-6 py-4 border-b border-gray-200 dark:border-coffee-700">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100">
+            Recent Extractions
+          </h3>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Latest documents processed with this template
+          </p>
+        </div>
+        <% if @recent_extractions.any? %>
+          <%= link_to documents_path(extraction_template_id: @extraction_template.id), class: "text-sm font-medium text-teal-600 hover:text-teal-500 dark:text-teal-400 dark:hover:text-teal-300" do %>
+            View all →
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="overflow-hidden">
+      <% if @recent_extractions.any? %>
+        <ul class="divide-y divide-gray-200 dark:divide-coffee-700">
+          <% @recent_extractions.each do |extraction| %>
+            <li class="px-6 py-4 hover:bg-gray-50 dark:hover:bg-coffee-900 transition-colors duration-150">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center min-w-0">
+                  <div class="flex-shrink-0">
+                    <% if extraction.status == 'completed' %>
+                      <div class="h-10 w-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                        <svg class="h-6 w-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                    <% elsif extraction.status == 'failed' %>
+                      <div class="h-10 w-10 rounded-full bg-red-100 dark:bg-red-900 flex items-center justify-center">
+                        <svg class="h-6 w-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                    <% else %>
+                      <div class="h-10 w-10 rounded-full bg-yellow-100 dark:bg-yellow-900 flex items-center justify-center">
+                        <svg class="h-6 w-6 text-yellow-600 dark:text-yellow-400 animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div class="ml-4 truncate">
+                    <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
+                      <%= extraction.document.name %>
+                    </p>
+                    <div class="flex items-center mt-1">
+                      <p class="text-sm text-gray-500 dark:text-gray-400">
+                        <%= extraction.created_at.strftime("%b %d, %I:%M %p") %>
+                      </p>
+                      <% if extraction.confidence_score %>
+                        <span class="mx-2 text-gray-300 dark:text-gray-600">•</span>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                          Confidence: <%= number_to_percentage(extraction.confidence_score, precision: 0) %>
+                        </p>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+                <div class="ml-4 flex-shrink-0">
+                  <%= link_to document_path(extraction.document), class: "inline-flex items-center px-3 py-1.5 border border-gray-300 dark:border-coffee-700 text-xs font-medium rounded-lg text-gray-700 dark:text-gray-200 bg-white dark:bg-coffee-800 hover:bg-gray-50 dark:hover:bg-coffee-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-200" do %>
+                    View
+                    <svg class="ml-1 -mr-0.5 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  <% end %>
+                </div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <div class="px-6 py-12 text-center">
+          <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">No extractions yet</h3>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Start processing documents to see extraction results here.
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

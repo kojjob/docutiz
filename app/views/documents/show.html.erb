@@ -1,0 +1,217 @@
+<div class="px-4 py-8 sm:px-6 lg:px-8">
+  <!-- Header -->
+  <div class="mb-8 flex items-center justify-between">
+    <div>
+      <div class="flex items-center space-x-3">
+        <%= link_to documents_path, class: "text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 transition-colors" do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        <% end %>
+        <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100"><%= @document.name %></h1>
+      </div>
+      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400 ml-8">
+        Uploaded by <%= @document.user.name %> on <%= @document.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+      </p>
+    </div>
+    
+    <div class="flex items-center space-x-3">
+      <%= link_to "Edit", edit_document_path(@document), 
+          class: "px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-coffee-900 border border-gray-300 dark:border-coffee-700 rounded-lg hover:bg-gray-50 dark:hover:bg-coffee-800 transition-colors" %>
+      
+      <% if @document.completed? && !@document.approved? %>
+        <%= button_to "Approve", approve_document_path(@document), method: :patch,
+            class: "px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700" %>
+      <% elsif @document.approved? %>
+        <%= button_to "Send for Review", reject_document_path(@document), method: :patch,
+            class: "px-4 py-2 text-sm font-medium text-white bg-amber-600 rounded-lg hover:bg-amber-700" %>
+      <% end %>
+      
+      <% if Rails.env.development? && @document.pending? && @document.extraction_template %>
+        <%= button_to "Process Now", document_path(@document, process: true), method: :patch,
+            class: "px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700",
+            data: { turbo_method: :patch } %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Main Content -->
+    <div class="lg:col-span-2 space-y-6">
+      <!-- Document Info -->
+      <div class="bg-white dark:bg-dark-surface rounded-xl shadow-sm border border-gray-100 dark:border-dark-border p-6">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Document Information</h2>
+        
+        <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Status</dt>
+            <dd class="mt-1">
+              <%= render 'status_badge', document: @document %>
+            </dd>
+          </div>
+          
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">File Type</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100"><%= @document.content_type || "Unknown" %></dd>
+          </div>
+          
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">File Size</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100"><%= number_to_human_size(@document.file_size) if @document.file_size %></dd>
+          </div>
+          
+          <div>
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Template</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">
+              <% if @document.extraction_template %>
+                <%= @document.extraction_template.name %>
+              <% else %>
+                <span class="text-gray-400">No template</span>
+              <% end %>
+            </dd>
+          </div>
+          
+          <% if @document.processing_started_at %>
+            <div>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Processing Started</dt>
+              <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100"><%= @document.processing_started_at.strftime("%b %d at %I:%M %p") %></dd>
+            </div>
+          <% end %>
+          
+          <% if @document.processing_completed_at %>
+            <div>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Processing Completed</dt>
+              <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100"><%= @document.processing_completed_at.strftime("%b %d at %I:%M %p") %></dd>
+            </div>
+          <% end %>
+        </dl>
+        
+        <% if @document.description.present? %>
+          <div class="mt-6 pt-6 border-t border-gray-100 dark:border-coffee-800">
+            <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Description</h3>
+            <p class="text-sm text-gray-900 dark:text-gray-100"><%= @document.description %></p>
+          </div>
+        <% end %>
+        
+        <% if @document.error_message.present? %>
+          <div class="mt-6 rounded-lg bg-red-50 dark:bg-red-900/20 p-4">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-sm font-medium text-red-800 dark:text-red-200">Processing Error</h3>
+                <p class="mt-1 text-sm text-red-700 dark:text-red-300"><%= @document.error_message %></p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Extracted Data -->
+      <% if @document.extracted_data.present? && @document.extracted_data.any? %>
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-sm border border-gray-100 dark:border-dark-border p-6">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Extracted Data</h2>
+          
+          <div class="space-y-4">
+            <% @document.extracted_data.each do |key, value| %>
+              <div class="flex justify-between py-3 border-b border-gray-100 dark:border-coffee-800 last:border-0">
+                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400"><%= key.humanize %></dt>
+                <dd class="text-sm text-gray-900 dark:text-gray-100 font-medium">
+                  <% if value.is_a?(Array) %>
+                    <div class="text-right">
+                      <% value.each do |item| %>
+                        <span class="block"><%= item %></span>
+                      <% end %>
+                    </div>
+                  <% else %>
+                    <%= value %>
+                  <% end %>
+                </dd>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Extraction Details -->
+      <% if @extraction_results.any? %>
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-sm border border-gray-100 dark:border-dark-border p-6">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Extraction Details</h2>
+          
+          <div class="space-y-4">
+            <% @extraction_results.each do |result| %>
+              <div class="flex items-start justify-between py-3 border-b border-gray-100 dark:border-coffee-800 last:border-0">
+                <div class="flex-1">
+                  <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100"><%= result.field_name.humanize %></h4>
+                  <p class="mt-1 text-sm text-gray-600 dark:text-gray-400"><%= result.field_value %></p>
+                </div>
+                <div class="ml-4 text-right">
+                  <% if result.confidence_score %>
+                    <div class="flex items-center">
+                      <span class="text-xs text-gray-500 dark:text-gray-400 mr-1">Confidence:</span>
+                      <span class="text-sm font-medium <%= result.confidence_score >= 0.8 ? 'text-green-600' : result.confidence_score >= 0.5 ? 'text-yellow-600' : 'text-red-600' %>">
+                        <%= (result.confidence_score * 100).round %>%
+                      </span>
+                    </div>
+                  <% end %>
+                  <% if result.ai_model %>
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400"><%= result.ai_model %></p>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="lg:col-span-1">
+      <div class="bg-white dark:bg-dark-surface rounded-xl shadow-sm border border-gray-100 dark:border-dark-border p-6 sticky top-6">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Document Preview</h3>
+        
+        <% if @document.file.attached? %>
+          <% if @document.file.image? %>
+            <div class="rounded-lg overflow-hidden">
+              <%= image_tag @document.file, class: "w-full" %>
+            </div>
+          <% else %>
+            <div class="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 dark:border-coffee-700 p-8 dark:bg-coffee-900/50">
+              <svg class="h-12 w-12 text-gray-400 dark:text-gray-600 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+              </svg>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Preview not available</p>
+              <%= link_to rails_blob_path(@document.file, disposition: "attachment"), 
+                  class: "inline-flex items-center px-4 py-2 bg-teal-600 dark:bg-teal-500 text-white text-sm font-medium rounded-lg hover:bg-teal-700 dark:hover:bg-teal-600 transition-colors" do %>
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Download File
+              <% end %>
+            </div>
+          <% end %>
+        <% else %>
+          <p class="text-sm text-gray-500 dark:text-gray-400 text-center py-8">No file attached</p>
+        <% end %>
+        
+        <div class="mt-6 pt-6 border-t border-gray-100 dark:border-coffee-800">
+          <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Quick Actions</h4>
+          <div class="space-y-2">
+            <button class="w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-coffee-800 rounded-lg hover:bg-gray-200 dark:hover:bg-coffee-700 text-left transition-colors">
+              Export as JSON
+            </button>
+            <button class="w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-coffee-800 rounded-lg hover:bg-gray-200 dark:hover:bg-coffee-700 text-left transition-colors">
+              Share Document
+            </button>
+            <%= button_to "Delete Document", document_path(@document), method: :delete,
+                data: { confirm: "Are you sure?" },
+                class: "w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 text-left transition-colors" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
