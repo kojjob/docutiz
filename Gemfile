@@ -60,7 +60,7 @@ gem "ruby-openai"
 gem "anthropic"
 
 # Payments
-gem "pay", "~> 7.0"
+gem "pay", "~> 11.1"
 gem "stripe", "~> 12.0"
 
 # PWA Support
